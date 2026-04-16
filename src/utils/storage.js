@@ -31,6 +31,7 @@ export function getSettings() {
     musicVolume: 0.3,
     textPadding: 50,
     hebrewNumerals: false,
+    showAllText: false,
   };
 }
 

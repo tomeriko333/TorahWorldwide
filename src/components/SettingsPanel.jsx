@@ -73,6 +73,21 @@ export default function SettingsPanel({ settings, onUpdate, onClose, onAdjustBor
           </button>
         </div>
 
+        {/* Show all text toggle */}
+        <div className="mb-6 flex items-center justify-between">
+          <label className="text-white/50 text-sm font-ui">הצג את כל הטקסט</label>
+          <button
+            onClick={() => onUpdate({ ...settings, showAllText: !settings.showAllText })}
+            className="cursor-pointer w-12 h-6 rounded-full transition-all duration-300 flex items-center px-1"
+            style={{ backgroundColor: settings.showAllText ? 'rgba(212,168,67,0.6)' : 'rgba(255,255,255,0.15)' }}
+          >
+            <div
+              className="w-4 h-4 rounded-full bg-white transition-all duration-300"
+              style={{ transform: settings.showAllText ? 'translateX(0px)' : 'translateX(24px)' }}
+            />
+          </button>
+        </div>
+
         {/* Keyboard shortcuts info */}
         <div className="mt-8 pt-6 border-t border-white/10">
           <p className="text-white/30 text-xs font-ui mb-2">קיצורי מקלדת:</p>
