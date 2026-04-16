@@ -1,0 +1,202 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&display=swap');
+
+/* Gold text selection */
+::selection {
+  background-color: rgba(212, 168, 67, 0.3);
+  color: #fff;
+}
+*::selection {
+  background-color: rgba(212, 168, 67, 0.3);
+  color: #fff;
+}
+
+@font-face {
+  font-family: 'StamSefarad';
+  src: url('/StamSefaradCLM.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ShmulikCLM';
+  src: url('/fonts/ShmulikCLM.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Combinumerals';
+  src: url('/fonts/Combinumerals-OGR4.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TrashimCLM';
+  src: url('/fonts/trashimclm-bold-webfont.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --color-gold: #d4a843;
+  --color-gold-light: #e8c872;
+  --color-gold-dark: #b8912e;
+  --color-navy: #0a0e1a;
+  --color-navy-light: #131830;
+  --color-navy-lighter: #1c2240;
+  --color-cream: #f5f0e8;
+  --color-cream-dark: #e0d5c4;
+  --font-torah: 'Frank Ruhl Libre', serif;
+  --font-ui: 'StamSefarad', sans-serif;
+  --font-title: 'StamSefarad', serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Hide cursor only on non-touch devices */
+@media (hover: hover) and (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
+}
+
+body {
+  font-family: var(--font-ui);
+  background-color: var(--color-navy);
+  color: white;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Torah text styling */
+.torah-text {
+  font-family: var(--font-torah);
+  direction: rtl;
+  text-align: center;
+  line-height: 2.1;
+  letter-spacing: 0.02em;
+}
+
+/* Word highlight glow effect */
+.word-highlight {
+  color: var(--color-gold);
+  text-shadow: 0 0 20px rgba(212, 168, 67, 0.4), 0 0 40px rgba(212, 168, 67, 0.2);
+  transition: all 0.3s ease;
+}
+
+.word-dim {
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+}
+
+.word-read {
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
+}
+
+.word-upcoming {
+  opacity: 0.55;
+  transition: opacity 0.3s ease;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-navy);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-navy-lighter);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-dark);
+}
+
+/* Light mode overrides */
+.light-mode {
+  background-color: var(--color-cream);
+  color: #1a1a2e;
+}
+
+.light-mode .word-highlight {
+  color: #8b6914;
+  text-shadow: 0 0 20px rgba(139, 105, 20, 0.3);
+}
+
+/* Cinematic transitions */
+.splash-enter {
+  animation: splashEnter 0.8s ease-out forwards;
+}
+
+@keyframes splashEnter {
+  from {
+    opacity: 0;
+    transform: scale(1.1);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+.splash-exit {
+  animation: splashExit 0.7s ease-in forwards;
+}
+
+@keyframes splashExit {
+  from {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+    filter: blur(8px);
+  }
+}
+
+.page-enter {
+  animation: pageEnter 0.5s ease-out forwards;
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
