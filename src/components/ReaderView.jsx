@@ -9,6 +9,8 @@ import { useSefaria } from '../hooks/useSefaria';
 import { useAudio } from '../hooks/useAudio';
 import { saveLastPosition, getSettings, saveSettings } from '../utils/storage';
 import { toHebrewNumeral } from '../utils/hebrewNumerals';
+import { parseSearchRef } from '../utils/searchRef';
+import torahStructure from '../data/torahStructure.json';
 import SpeedControl from './SpeedControl';
 import SettingsPanel from './SettingsPanel';
 
@@ -61,6 +63,21 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
   const [showTranslations, setShowTranslations] = useState(true);
   const [translating, setTranslating] = useState(false);
   const [editingTranslations, setEditingTranslations] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchError, setSearchError] = useState('');
+  const [searchFocused, setSearchFocused] = useState(false);
+
+  const handleBottomSearch = () => {
+    const result = parseSearchRef(searchQuery, torahStructure.books);
+    if (result.error !== undefined) {
+      setSearchError(result.error);
+      setTimeout(() => setSearchError(''), 2800);
+      return;
+    }
+    setSearchError('');
+    setSearchQuery('');
+    if (onNavigate) onNavigate(result.book, result.chapter);
+  };
 
   // Create mirrored parchment background tile
   useEffect(() => {
@@ -1363,6 +1380,68 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
               </button>
             )
           )}
+
+          {/* Search bar — physical right side of Row 2, inline with buttons */}
+          <div
+            className="absolute right-4 top-1/2"
+            style={{ width: '220px', transform: 'translateY(calc(-50% + 3px))' }}
+            dir="rtl"
+          >
+            <div
+              className="relative rounded-full overflow-hidden transition-all duration-300"
+              style={{
+                background: 'rgba(212,168,67,0.04)',
+                backdropFilter: 'blur(10px) saturate(140%)',
+                WebkitBackdropFilter: 'blur(10px) saturate(140%)',
+                border: searchFocused
+                  ? '1px solid rgba(212,168,67,0.6)'
+                  : '1px solid rgba(255,255,255,0.15)',
+                boxShadow: searchFocused
+                  ? '0 0 14px rgba(212,168,67,0.2)'
+                  : 'none',
+              }}
+            >
+              <input
+                type="text"
+                dir="rtl"
+                value={searchQuery}
+                onChange={(e) => { setSearchQuery(e.target.value); setSearchError(''); }}
+                onFocus={() => setSearchFocused(true)}
+                onBlur={() => setSearchFocused(false)}
+                onKeyDown={(e) => e.key === 'Enter' && handleBottomSearch()}
+                placeholder="חיפוש"
+                className="w-full pl-8 pr-3 py-1 bg-transparent text-white/85 text-xs outline-none text-center"
+                style={{
+                  fontFamily: 'var(--font-title)',
+                  caretColor: '#d4a843',
+                }}
+              />
+              <button
+                onClick={handleBottomSearch}
+                aria-label="חפש"
+                className="absolute top-1/2 -translate-y-1/2 flex items-center justify-center text-gold cursor-pointer"
+                style={{
+                  left: '4px',
+                  width: '22px',
+                  height: '22px',
+                  background: 'transparent',
+                  border: 'none',
+                  filter: 'drop-shadow(0 0 3px rgba(212,168,67,0.3))',
+                }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </button>
+            </div>
+            {searchError && (
+              <p className="absolute left-0 right-0 -top-5 text-red-400/90 text-[10px] font-ui text-center whitespace-nowrap">
+                {searchError}
+              </p>
+            )}
+          </div>
         </div>
       ) : (
       /* ======== BOTTOM BAR COLLAPSED — Show button (▲) ======== */

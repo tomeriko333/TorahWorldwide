@@ -200,3 +200,19 @@ body {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+/* Gentle pulse on the selected chapter tile */
+@keyframes chapter-pulse {
+  0%, 100% {
+    box-shadow: 0 0 18px rgba(212,168,67,0.32), inset 0 0 10px rgba(212,168,67,0.08);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(212,168,67,0.55), inset 0 0 16px rgba(212,168,67,0.18);
+  }
+}
+
+/* Gold shimmer that sweeps across the primary start button */
+@keyframes gold-shimmer {
+  0% { transform: translateX(-120%) skewX(-20deg); }
+  60%, 100% { transform: translateX(220%) skewX(-20deg); }
+}
