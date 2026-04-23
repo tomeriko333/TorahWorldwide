@@ -583,7 +583,6 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
 
   // Focus mode blur
   const getVerseBlur = (vIndex) => {
-    if (settings.showAllText) return 0;
     if (!focusMode) return 0;
     const activeV = (audio.isPlaying && audio.hasSync && audio.activeVerse >= 0) ? audio.activeVerse : currentVerse;
     const distance = Math.abs(vIndex - activeV);
@@ -961,12 +960,13 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
         <div className="py-8 pb-32" style={{ paddingLeft: `${textPadding}px`, paddingRight: `${textPadding}px` }} dir="rtl">
           {verses.map((verse, vIndex) => (
             <div key={verse.number} ref={(el) => (verseRefs.current[vIndex] = el)}>
+              {(() => {
+                const isActiveVerse = vIndex === currentVerse || (audio.isPlaying && audio.hasSync && vIndex === audio.activeVerse);
+                const opacityClass = isActiveVerse ? 'opacity-100' : focusMode ? 'opacity-50' : settings.showAllText ? 'opacity-100' : 'opacity-30';
+                return (
               <div
-                className={`torah-text cursor-pointer transition-all duration-500 origin-center ${
-                  settings.showAllText ? 'opacity-100' :
-                  (vIndex !== currentVerse && !(audio.isPlaying && audio.hasSync && vIndex === audio.activeVerse)) ? (focusMode ? 'opacity-50' : 'opacity-30') : 'opacity-100'
-                }`}
-                style={{ ...getVerseStyle(vIndex, showSavedTranslations ? fontSize * 0.5 : fontSize), color: parchmentMode ? '#000000' : '#e8e0d0', fontFamily: parchmentMode ? "'ShmulikCLM', serif" : "var(--font-torah)", transition: 'font-size 0.4s ease', ...(settings.showAllText ? { textShadow: getVerseGlow(vIndex) } : {}) }}
+                className={`torah-text cursor-pointer transition-all duration-500 origin-center ${opacityClass}`}
+                style={{ ...getVerseStyle(vIndex, showSavedTranslations ? fontSize * 0.5 : fontSize), color: parchmentMode ? '#000000' : '#e8e0d0', fontFamily: parchmentMode ? "'ShmulikCLM', serif" : "var(--font-torah)", transition: 'font-size 0.4s ease', ...(settings.showAllText && (!focusMode || isActiveVerse) ? { textShadow: getVerseGlow(vIndex) } : {}) }}
                 onClick={() => { setCurrentVerse(vIndex); setCurrentWord(0); }}
               >
                 {parchmentMode ? (
@@ -988,6 +988,8 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
                   </span>
                 ))}
               </div>
+                );
+              })()}
               {/* Interlinear translation (API or saved) */}
               {(() => {
                 const apiTrans = showTranslations && verseTranslations[vIndex];
@@ -1044,10 +1046,11 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
                 <span
                   key={verse.number}
                   className={`transition-all duration-500 ${
-                    settings.showAllText ? 'opacity-100' :
-                    !isCurrent ? (focusMode ? 'opacity-50' : 'opacity-30') : 'opacity-100'
+                    isCurrent ? 'opacity-100' :
+                    focusMode ? 'opacity-50' :
+                    settings.showAllText ? 'opacity-100' : 'opacity-30'
                   }`}
-                  style={{ ...spanStyle, ...(settings.showAllText ? { textShadow: getVerseGlow(vIndex) } : {}) }}
+                  style={{ ...spanStyle, ...(settings.showAllText && (!focusMode || isCurrent) ? { textShadow: getVerseGlow(vIndex) } : {}) }}
                 >
                   {parchmentMode ? (
                     <bdi className="select-none" style={{ fontSize: settings.hebrewNumerals ? (isMobile ? '13px' : '20px') : (isMobile ? '19px' : '28px'), fontFamily: settings.hebrewNumerals ? "'TrashimCLM', serif" : "'Combinumerals', serif", color: '#2b1a0a', marginLeft: '8px', lineHeight: '1', verticalAlign: 'middle', direction: 'ltr', display: 'inline-block', transform: isMobile ? 'translateY(5px)' : 'none' }}>{settings.hebrewNumerals ? toHebrewNumeral(verse.number) : toCombiNumerals(verse.number)}</bdi>
