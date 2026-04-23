@@ -144,7 +144,7 @@ body {
 
 /* Cinematic transitions */
 .splash-enter {
-  animation: splashEnter 0.8s ease-out forwards;
+  animation: splashEnter 0.45s ease-out forwards;
 }
 
 @keyframes splashEnter {
@@ -161,7 +161,7 @@ body {
 }
 
 .splash-exit {
-  animation: splashExit 0.7s ease-in forwards;
+  animation: splashExit 0.25s ease-in forwards;
 }
 
 @keyframes splashExit {

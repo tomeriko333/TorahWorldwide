@@ -45,7 +45,7 @@ export default function PerushimView({ onBack }) {
       className="min-h-screen flex flex-col splash-enter"
       dir="rtl"
       style={{
-        backgroundImage: 'url(/home-bg.png)',
+        backgroundImage: 'url(/home-bg.webp)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -62,7 +62,7 @@ export default function PerushimView({ onBack }) {
         </h2>
         <button
           onClick={onBack}
-          className="text-white/40 hover:text-gold cursor-pointer transition-all duration-300 text-lg font-ui px-4 py-2 border border-white/10 rounded-lg hover:border-gold/30"
+          className="text-white/40 hover:text-gold cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 text-lg font-ui px-4 py-2 border border-white/10 rounded-lg hover:border-gold/30"
         >
           חזרה
         </button>
@@ -75,7 +75,7 @@ export default function PerushimView({ onBack }) {
           {activePerush && (
             <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: 'rgba(0,0,0,0.7)' }} onClick={() => { setActivePerush(null); setIsEditing(false); }}>
               <div
-                className="border border-gold/20 rounded-2xl p-8 bg-[#0a0e1a] backdrop-blur-sm overflow-y-auto flex flex-col"
+                className="border border-gold/20 rounded-2xl p-8 bg-[#0a0e1a] overflow-y-auto flex flex-col"
                 style={{ width: '80%', height: '80%' }}
                 dir="rtl"
                 onClick={(e) => e.stopPropagation()}
@@ -103,7 +103,7 @@ export default function PerushimView({ onBack }) {
                           setIsEditing(true);
                         }
                       }}
-                      className={`cursor-pointer transition-all duration-300 text-sm font-ui px-3 py-1 border rounded-lg ${
+                      className={`cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 text-sm font-ui px-3 py-1 border rounded-lg ${
                         isEditing
                           ? 'text-gold border-gold/40 hover:bg-gold/10'
                           : 'text-white/40 border-white/10 hover:text-gold hover:border-gold/30'
@@ -114,14 +114,14 @@ export default function PerushimView({ onBack }) {
                     {isEditing && (
                       <button
                         onClick={() => setIsEditing(false)}
-                        className="text-white/40 hover:text-white/60 cursor-pointer transition-all duration-300 text-sm font-ui px-3 py-1 border border-white/10 rounded-lg"
+                        className="text-white/40 hover:text-white/60 cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 text-sm font-ui px-3 py-1 border border-white/10 rounded-lg"
                       >
                         ביטול
                       </button>
                     )}
                     <button
                       onClick={() => { setActivePerush(null); setIsEditing(false); }}
-                      className="text-white/40 hover:text-gold cursor-pointer transition-all duration-300 text-sm font-ui px-3 py-1 border border-white/10 rounded-lg hover:border-gold/30"
+                      className="text-white/40 hover:text-gold cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 text-sm font-ui px-3 py-1 border border-white/10 rounded-lg hover:border-gold/30"
                     >
                       סגור ✕
                     </button>
@@ -176,7 +176,7 @@ export default function PerushimView({ onBack }) {
                         setActiveBook(activeBook === book.english ? null : book.english);
                         setActiveChapter(null);
                       }}
-                      className={`px-6 py-3 rounded-xl border text-xl cursor-pointer transition-all duration-300 ${
+                      className={`px-6 py-3 rounded-xl border text-xl cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 ${
                         activeBook === book.english
                           ? 'border-gold/50 bg-gold/10 text-gold shadow-[0_0_20px_rgba(212,168,67,0.1)]'
                           : hasContent
@@ -216,11 +216,17 @@ export default function PerushimView({ onBack }) {
 
                       const isOpen = activeChapter === chNum;
                       return (
-                        <div key={chNum} className="border border-white/8 rounded-xl overflow-hidden bg-black/20 backdrop-blur-sm">
+                        <div
+                          key={chNum}
+                          className="border border-white/8 rounded-xl overflow-hidden"
+                          style={{
+                            background: 'linear-gradient(180deg, rgba(20,28,50,0.72), rgba(10,14,26,0.85))',
+                          }}
+                        >
                           {/* Chapter header — accordion toggle */}
                           <button
                             onClick={() => setActiveChapter(isOpen ? null : chNum)}
-                            className="w-full flex items-center justify-between px-6 py-4 cursor-pointer transition-all duration-300 hover:bg-white/5"
+                            className="w-full flex items-center justify-between px-6 py-4 cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:bg-white/5"
                           >
                             <span className="text-gold text-lg" style={{ fontFamily: 'var(--font-title)' }}>
                               פרק {hn(Number(chNum))}
@@ -242,7 +248,7 @@ export default function PerushimView({ onBack }) {
                                 <button
                                   key={idx}
                                   onClick={() => setActivePerush(perush)}
-                                  className="w-full text-right px-4 py-3 rounded-lg cursor-pointer transition-all duration-300 hover:bg-gold/5 border border-transparent hover:border-gold/20 flex items-center justify-between"
+                                  className="w-full text-right px-4 py-3 rounded-lg cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:bg-gold/5 border border-transparent hover:border-gold/20 flex items-center justify-between"
                                 >
                                   <span className="text-white/60 font-ui text-base">
                                     {perush.title}

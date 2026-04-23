@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import HomeScreen from './components/HomeScreen';
-import ReaderView from './components/ReaderView';
-import PerushimView from './components/PerushimView';
 import CustomCursor from './components/CustomCursor';
+
+const ReaderView = lazy(() => import('./components/ReaderView'));
+const PerushimView = lazy(() => import('./components/PerushimView'));
 
 export default function App() {
   const [screen, setScreen] = useState('home');
@@ -28,16 +29,18 @@ export default function App() {
     <>
       <CustomCursor />
       {screen === 'home' && <HomeScreen onStart={handleStart} onPerushim={() => setScreen('perushim')} />}
-      {screen === 'perushim' && <PerushimView onBack={() => setScreen('home')} />}
-      {screen === 'reader' && selectedBook && selectedChapter && (
-        <ReaderView
-          book={selectedBook}
-          chapter={selectedChapter}
-          initialVerse={initialVerse}
-          onBack={handleBack}
-          onNavigate={handleNavigate}
-        />
-      )}
+      <Suspense fallback={null}>
+        {screen === 'perushim' && <PerushimView onBack={() => setScreen('home')} />}
+        {screen === 'reader' && selectedBook && selectedChapter && (
+          <ReaderView
+            book={selectedBook}
+            chapter={selectedChapter}
+            initialVerse={initialVerse}
+            onBack={handleBack}
+            onNavigate={handleNavigate}
+          />
+        )}
+      </Suspense>
     </>
   );
 }

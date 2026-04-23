@@ -25,7 +25,7 @@ export default function ChapterSelector({ book, onSelectChapter, onBack, theme, 
           <button
             key={num}
             onClick={() => onSelectChapter(num)}
-            className="py-3 border rounded-lg transition-all duration-300 cursor-pointer font-ui text-lg"
+            className="py-3 border rounded-lg transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 cursor-pointer font-ui text-lg"
             style={{
               backgroundColor: light ? 'rgba(0,0,0,0.03)' : 'rgba(255,255,255,0.03)',
               borderColor: subtleColor,

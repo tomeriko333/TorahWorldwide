@@ -49,7 +49,7 @@ export default function SettingsPanel({ settings, onUpdate, onClose, onAdjustBor
               onAdjustBorders();
             }}
             className="w-full py-3 rounded-xl border border-gold/30 text-gold/70 hover:text-gold
-                       hover:border-gold/50 hover:bg-gold/5 transition-all duration-300 cursor-pointer font-ui text-sm"
+                       hover:border-gold/50 hover:bg-gold/5 transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 cursor-pointer font-ui text-sm"
           >
             התאם שוליים ↔
           </button>
@@ -63,11 +63,11 @@ export default function SettingsPanel({ settings, onUpdate, onClose, onAdjustBor
           <label className="text-white/50 text-sm font-ui">אותיות עבריות במספרים</label>
           <button
             onClick={() => onUpdate({ ...settings, hebrewNumerals: !settings.hebrewNumerals })}
-            className="cursor-pointer w-12 h-6 rounded-full transition-all duration-300 flex items-center px-1"
+            className="cursor-pointer w-12 h-6 rounded-full transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 flex items-center px-1"
             style={{ backgroundColor: settings.hebrewNumerals ? 'rgba(212,168,67,0.6)' : 'rgba(255,255,255,0.15)' }}
           >
             <div
-              className="w-4 h-4 rounded-full bg-white transition-all duration-300"
+              className="w-4 h-4 rounded-full bg-white transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200"
               style={{ transform: settings.hebrewNumerals ? 'translateX(0px)' : 'translateX(24px)' }}
             />
           </button>
@@ -78,11 +78,11 @@ export default function SettingsPanel({ settings, onUpdate, onClose, onAdjustBor
           <label className="text-white/50 text-sm font-ui">הצג את כל הטקסט</label>
           <button
             onClick={() => onUpdate({ ...settings, showAllText: !settings.showAllText })}
-            className="cursor-pointer w-12 h-6 rounded-full transition-all duration-300 flex items-center px-1"
+            className="cursor-pointer w-12 h-6 rounded-full transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 flex items-center px-1"
             style={{ backgroundColor: settings.showAllText ? 'rgba(212,168,67,0.6)' : 'rgba(255,255,255,0.15)' }}
           >
             <div
-              className="w-4 h-4 rounded-full bg-white transition-all duration-300"
+              className="w-4 h-4 rounded-full bg-white transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200"
               style={{ transform: settings.showAllText ? 'translateX(0px)' : 'translateX(24px)' }}
             />
           </button>

@@ -24,7 +24,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
   const [diceHover, setDiceHover] = useState(false);
   const [diceSpinning, setDiceSpinning] = useState(false);
   // Wallpaper cycling — add more filenames under /public as they're created
-  const WALLPAPERS = ['/home-bg-original.png'];
+  const WALLPAPERS = ['/home-bg-original.webp'];
   const [wallpaperIdx, setWallpaperIdx] = useState(0);
   const nextWallpaper = () => setWallpaperIdx((i) => (i + 1) % WALLPAPERS.length);
   const prevWallpaper = () => setWallpaperIdx((i) => (i - 1 + WALLPAPERS.length) % WALLPAPERS.length);
@@ -109,7 +109,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
 
   const handleStart = () => {
     setExiting(true);
-    setTimeout(() => onStart(selectedBook, selectedChapter), 500);
+    setTimeout(() => onStart(selectedBook, selectedChapter), 220);
   };
 
   const handleBookChange = (book) => {
@@ -126,7 +126,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
     }
     setSearchError('');
     setExiting(true);
-    setTimeout(() => onStart(result.book, result.chapter, result.verse), 500);
+    setTimeout(() => onStart(result.book, result.chapter, result.verse), 220);
   };
 
   // Roll a random book + chapter and jump to it
@@ -137,7 +137,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
     const chapterNum = Math.floor(Math.random() * book.chapters) + 1;
     setSearchError('');
     setExiting(true);
-    setTimeout(() => onStart(book, chapterNum, null), 500);
+    setTimeout(() => onStart(book, chapterNum, null), 220);
   };
 
   return (
@@ -158,7 +158,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
       {!uiHidden && (
       <button
         onClick={() => setShowSettings(!showSettings)}
-        className="fixed top-6 left-6 z-50 cursor-pointer transition-all duration-300 hover:brightness-125 flex items-center justify-center"
+        className="fixed top-6 left-6 z-50 cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125 flex items-center justify-center"
         style={{ width: '40px', height: '40px' }}
         aria-label="הגדרות"
       >
@@ -170,24 +170,22 @@ export default function HomeScreen({ onStart, onPerushim }) {
       </button>
       )}
 
-      {/* Top-right control cluster: wallpaper arrows (hidden when UI hidden) + eye toggle (always visible) */}
-      <div className="fixed top-6 right-6 z-50 flex items-center gap-1.5">
+      {/* Bottom-right control cluster: wallpaper arrows (hidden when UI hidden) + eye toggle (always visible) */}
+      <div className="fixed bottom-6 right-6 z-50 flex items-center gap-1.5">
         {!uiHidden && (
           <>
             <button
               onClick={prevWallpaper}
               aria-label="טפט קודם"
-              className="flex items-center justify-center cursor-pointer transition-all duration-300 hover:brightness-125"
+              className="flex items-center justify-center cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125"
               style={{
                 width: '34px',
                 height: '34px',
                 color: '#f4d78a',
-                background: 'rgba(10,14,26,0.55)',
-                backdropFilter: 'blur(10px)',
-                WebkitBackdropFilter: 'blur(10px)',
+                background: 'linear-gradient(180deg, rgba(20,28,50,0.88), rgba(10,14,26,0.92))',
                 border: '1px solid rgba(244,215,138,0.45)',
                 borderRadius: '50%',
-                filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.6))',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.6)',
               }}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -198,17 +196,15 @@ export default function HomeScreen({ onStart, onPerushim }) {
             <button
               onClick={nextWallpaper}
               aria-label="טפט הבא"
-              className="flex items-center justify-center cursor-pointer transition-all duration-300 hover:brightness-125"
+              className="flex items-center justify-center cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125"
               style={{
                 width: '34px',
                 height: '34px',
                 color: '#f4d78a',
-                background: 'rgba(10,14,26,0.55)',
-                backdropFilter: 'blur(10px)',
-                WebkitBackdropFilter: 'blur(10px)',
+                background: 'linear-gradient(180deg, rgba(20,28,50,0.88), rgba(10,14,26,0.92))',
                 border: '1px solid rgba(244,215,138,0.45)',
                 borderRadius: '50%',
-                filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.6))',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.6)',
               }}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -223,17 +219,15 @@ export default function HomeScreen({ onStart, onPerushim }) {
           onClick={() => setUiHidden((v) => !v)}
           aria-label={uiHidden ? 'הצג תפריט' : 'הסתר תפריט'}
           title={uiHidden ? 'הצג תפריט' : 'הסתר תפריט'}
-          className="flex items-center justify-center cursor-pointer transition-all duration-300 hover:brightness-125"
+          className="flex items-center justify-center cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125"
           style={{
             width: '34px',
             height: '34px',
             color: '#f4d78a',
-            background: 'rgba(10,14,26,0.55)',
-            backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)',
+            background: 'linear-gradient(180deg, rgba(20,28,50,0.88), rgba(10,14,26,0.92))',
             border: '1px solid rgba(244,215,138,0.45)',
             borderRadius: '50%',
-            filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.6))',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.6)',
           }}
         >
           {uiHidden ? (
@@ -275,11 +269,11 @@ export default function HomeScreen({ onStart, onPerushim }) {
               <label className="text-white/50 text-sm font-ui">אותיות עבריות</label>
               <button
                 onClick={() => updateSettings({ ...settings, hebrewNumerals: !settings.hebrewNumerals })}
-                className="cursor-pointer w-12 h-6 rounded-full transition-all duration-300 flex items-center px-1"
+                className="cursor-pointer w-12 h-6 rounded-full transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 flex items-center px-1"
                 style={{ backgroundColor: settings.hebrewNumerals ? 'rgba(212,168,67,0.6)' : 'rgba(255,255,255,0.15)' }}
               >
                 <div
-                  className="w-4 h-4 rounded-full bg-white transition-all duration-300"
+                  className="w-4 h-4 rounded-full bg-white transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200"
                   style={{ transform: settings.hebrewNumerals ? 'translateX(0px)' : 'translateX(24px)' }}
                 />
               </button>
@@ -311,7 +305,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
             backgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             color: 'transparent',
-            filter: 'drop-shadow(0 3px 2px rgba(0,0,0,0.75)) drop-shadow(0 0 28px rgba(212,168,67,0.4))',
+            filter: 'drop-shadow(0 3px 12px rgba(0,0,0,0.85))',
           }}
         >
           אוצר התורה
@@ -360,6 +354,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
           maxWidth: contentMaxWidth,
           paddingBottom: '2rem',
           marginTop: '180px',
+          zoom: 0.9,
           transition: 'max-width 0.45s cubic-bezier(0.22, 1, 0.36, 1)',
         }}
       >
@@ -372,7 +367,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
               <button
                 key={section.english}
                 onClick={() => setActiveSection(section.english)}
-                className="relative cursor-pointer transition-all duration-300 pb-2"
+                className="relative cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 pb-2"
                 style={{
                   fontFamily: 'var(--font-title)',
                   fontSize: '1.15rem',
@@ -409,7 +404,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
                   <button
                     key={book.english}
                     onClick={() => handleBookChange(book)}
-                    className="cursor-pointer transition-all duration-300"
+                    className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200"
                     style={{
                       minWidth: '110px',
                       padding: '10px 20px',
@@ -419,10 +414,8 @@ export default function HomeScreen({ onStart, onPerushim }) {
                       letterSpacing: '0.02em',
                       color: isActive ? '#f4d78a' : 'rgba(255,255,255,0.92)',
                       background: isActive
-                        ? 'linear-gradient(180deg, rgba(212,168,67,0.22), rgba(212,168,67,0.05))'
-                        : 'rgba(10,14,26,0.30)',
-                      backdropFilter: 'blur(14px) saturate(140%)',
-                      WebkitBackdropFilter: 'blur(14px) saturate(140%)',
+                        ? 'linear-gradient(180deg, rgba(212,168,67,0.42), rgba(140,100,35,0.72))'
+                        : 'linear-gradient(180deg, rgba(20,28,50,0.82), rgba(10,14,26,0.9))',
                       border: isActive
                         ? '1.5px solid rgba(244,215,138,0.85)'
                         : '1px solid rgba(255,255,255,0.25)',
@@ -475,15 +468,10 @@ export default function HomeScreen({ onStart, onPerushim }) {
         <div className="mb-11 flex justify-center">
           <div
             dir="rtl"
-            className="max-h-[260px] overflow-y-auto py-5 px-4 rounded-2xl"
+            className="max-h-[260px] overflow-y-auto py-5 px-4"
             style={{
               width: '100%',
               maxWidth: chapterGridMaxWidth,
-              background: 'rgba(10,14,26,0.30)',
-              backdropFilter: 'blur(14px) saturate(140%)',
-              WebkitBackdropFilter: 'blur(14px) saturate(140%)',
-              border: '1px solid rgba(212,168,67,0.30)',
-              boxShadow: '0 6px 28px rgba(0,0,0,0.55), inset 0 0 18px rgba(0,0,0,0.15)',
               transition: 'max-width 0.45s cubic-bezier(0.22, 1, 0.36, 1)',
             }}
           >
@@ -497,7 +485,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
                   <button
                     key={num}
                     onClick={() => setSelectedChapter(num)}
-                    className="cursor-pointer transition-all duration-300 flex items-center justify-center"
+                    className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 flex items-center justify-center"
                     style={{
                       width: '44px',
                       height: '44px',
@@ -532,9 +520,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
           style={{
             marginTop: '18px',
             padding: '16px 56px',
-            background: 'linear-gradient(180deg, rgba(212,168,67,0.32), rgba(212,168,67,0.12))',
-            backdropFilter: 'blur(14px) saturate(150%)',
-            WebkitBackdropFilter: 'blur(14px) saturate(150%)',
+            background: 'linear-gradient(180deg, rgba(212,168,67,0.5), rgba(140,100,35,0.72))',
             border: '1.5px solid rgba(244,215,138,0.88)',
             fontSize: '1.38rem',
             color: '#f8dfa0',
@@ -552,7 +538,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
         <div className="mt-7">
           <button
             onClick={onPerushim}
-            className="cursor-pointer transition-all duration-300"
+            className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200"
             style={{
               fontFamily: 'var(--font-title)',
               fontSize: '1.06rem',
@@ -594,11 +580,9 @@ export default function HomeScreen({ onStart, onPerushim }) {
                   setSearchQuery(s.query);
                   handleSearch(s.query);
                 }}
-                className="px-4 py-2 rounded-full border border-gold/30 text-gold/80 text-sm font-ui cursor-pointer transition-all duration-300 hover:border-gold/70 hover:text-gold hover:bg-gold/10"
+                className="px-4 py-2 rounded-full border border-gold/30 text-gold/80 text-sm font-ui cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:border-gold/70 hover:text-gold hover:bg-gold/10"
                 style={{
-                  background: 'rgba(10,14,26,0.55)',
-                  backdropFilter: 'blur(12px)',
-                  WebkitBackdropFilter: 'blur(12px)',
+                  background: 'linear-gradient(180deg, rgba(20,28,50,0.88), rgba(10,14,26,0.92))',
                 }}
               >
                 {s.label}
@@ -624,7 +608,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
               border: 'none',
               flexShrink: 0,
               filter: diceHover
-                ? 'drop-shadow(0 0 18px rgba(212,168,67,0.75)) drop-shadow(0 0 32px rgba(212,168,67,0.35))'
+                ? 'drop-shadow(0 0 14px rgba(212,168,67,0.75))'
                 : 'drop-shadow(0 0 6px rgba(212,168,67,0.3))',
               transform: diceSpinning ? 'rotate(360deg) scale(1.12)' : 'rotate(0deg) scale(1)',
               transition: 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease',
@@ -654,11 +638,9 @@ export default function HomeScreen({ onStart, onPerushim }) {
           <div className="relative flex-1">
             {/* Main bar: glassmorphism */}
             <div
-              className="relative rounded-2xl overflow-hidden transition-all duration-500"
+              className="relative rounded-2xl overflow-hidden transition-[box-shadow] duration-300"
               style={{
-                background: 'rgba(212,168,67,0.04)',
-                backdropFilter: 'blur(22px) saturate(140%)',
-                WebkitBackdropFilter: 'blur(22px) saturate(140%)',
+                background: 'linear-gradient(180deg, rgba(15,22,40,0.82), rgba(8,12,22,0.88))',
                 border: '2px solid rgba(255,255,255,0.12)',
                 boxShadow: searchFocused
                   ? '0 12px 40px rgba(0,0,0,0.55), 0 0 45px rgba(212,168,67,0.18), inset 0 0 30px rgba(212,168,67,0.07)'
@@ -728,7 +710,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
               border: 'none',
               flexShrink: 0,
               filter: arrowHover
-                ? 'drop-shadow(0 0 18px rgba(212,168,67,0.75)) drop-shadow(0 0 32px rgba(212,168,67,0.35))'
+                ? 'drop-shadow(0 0 14px rgba(212,168,67,0.75))'
                 : 'drop-shadow(0 0 6px rgba(212,168,67,0.3))',
               transform: arrowPulsing ? 'scale(1.18)' : 'scale(1)',
               transition: 'transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease',

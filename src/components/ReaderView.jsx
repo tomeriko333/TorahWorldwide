@@ -645,7 +645,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
           <div dir="rtl">
             {/* MOBILE ROW 1 */}
             <div className="h-10 flex items-center justify-between px-3">
-              <button onClick={onBack} className="cursor-pointer transition-all duration-300 hover:brightness-125 flex items-center justify-center"
+              <button onClick={onBack} className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125 flex items-center justify-center"
                 style={{ width: '35px', height: '35px' }}>
                 <img src="/icon-back.png" alt="חזרה" style={{ width: '35px', height: '35px', objectFit: 'contain', pointerEvents: 'none', transform: 'scale(2) translateY(-0.6px)', transformOrigin: 'center' }} />
               </button>
@@ -659,7 +659,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
               </div>
               <div className="flex items-center gap-1">
                 <button onClick={() => setParchmentMode(!parchmentMode)}
-                  className="cursor-pointer transition-all duration-300 hover:brightness-125 flex items-center justify-center rounded-md border"
+                  className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125 flex items-center justify-center rounded-md border"
                   style={{
                     width: '22px', height: '22px',
                     borderColor: parchmentMode ? 'rgba(212,168,67,0.4)' : 'rgba(255,255,255,0.15)',
@@ -670,7 +670,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
                   <span style={{ fontSize: '11px', lineHeight: 1 }}>{parchmentMode ? '🌙' : '📜'}</span>
                 </button>
                 <button onClick={() => setShowSettings(!showSettings)}
-                  className="cursor-pointer transition-all duration-300 hover:brightness-125 flex items-center justify-center"
+                  className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125 flex items-center justify-center"
                   style={{ width: '35px', height: '35px' }}>
                   <img src="/icon-settings.png" alt="הגדרות" style={{ width: '35px', height: '35px', objectFit: 'contain', pointerEvents: 'none', transform: 'scale(4.12) translateY(0.4px)', transformOrigin: 'center' }} />
                 </button>
@@ -679,23 +679,23 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
             {/* MOBILE ROW 2 */}
             <div className="h-8 flex items-center justify-center gap-2 px-3 border-t border-white/5">
               <button onClick={() => setViewMode(1)}
-                className="cursor-pointer transition-all duration-300 hover:brightness-125 flex items-center justify-center"
+                className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125 flex items-center justify-center"
                 style={{ width: '20px', height: '20px' }}>
                 <img src="/icon-1.png" alt="תצוגה 1" style={{ width: '20px', height: '20px', objectFit: 'contain', pointerEvents: 'none', transform: 'scale(3)', transformOrigin: 'center', opacity: viewMode === 1 ? 1 : 0.4, transition: 'opacity 0.3s' }} />
               </button>
               <button onClick={() => setViewMode(2)}
-                className="cursor-pointer transition-all duration-300 hover:brightness-125 flex items-center justify-center"
+                className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125 flex items-center justify-center"
                 style={{ width: '20px', height: '20px' }}>
                 <img src="/icon-2.png" alt="תצוגה 2" style={{ width: '20px', height: '20px', objectFit: 'contain', pointerEvents: 'none', transform: 'scale(3)', transformOrigin: 'center', opacity: viewMode === 2 ? 1 : 0.4, transition: 'opacity 0.3s' }} />
               </button>
               <div className="w-px h-3 bg-white/10" />
               <button onClick={() => setFocusMode(f => !f)}
-                className="cursor-pointer transition-all duration-300 hover:brightness-125 flex items-center justify-center"
+                className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125 flex items-center justify-center"
                 style={{ width: '20px', height: '20px' }}>
                 <img src="/icon-eye.png" alt="מיקוד" style={{ width: '20px', height: '20px', objectFit: 'contain', pointerEvents: 'none', transform: 'scale(3.5)', transformOrigin: 'center', opacity: focusMode ? 1 : 0.4, transition: 'opacity 0.3s' }} />
               </button>
               <button onClick={() => setMagnifyMode(m => !m)}
-                className="cursor-pointer transition-all duration-300 hover:brightness-125 flex items-center justify-center"
+                className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125 flex items-center justify-center"
                 style={{ width: '20px', height: '20px' }}>
                 <img src="/icon-magni.png" alt="הגדלה" style={{ width: '20px', height: '20px', objectFit: 'contain', pointerEvents: 'none', transform: 'scale(2.2)', transformOrigin: 'center', opacity: magnifyMode ? 1 : 0.4, transition: 'opacity 0.3s' }} />
               </button>
@@ -758,7 +758,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
           ) : (
           /* -------- DESKTOP TOP BAR -------- */
           <div className="h-16 flex items-center px-2" dir="rtl">
-            <button onClick={onBack} className="cursor-pointer transition-all duration-300 hover:brightness-125 flex items-center justify-center"
+            <button onClick={onBack} className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125 flex items-center justify-center"
               style={{ width: '70px', height: '70px' }}>
               <img src="/icon-back.png" alt="חזרה" style={{ width: '70px', height: '70px', objectFit: 'contain', pointerEvents: 'none', transform: 'scale(2.15) translateY(-1.5px)', transformOrigin: 'center' }} />
             </button>
@@ -768,14 +768,14 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
                 <div className="flex items-center gap-1" style={{ transform: 'translateX(100px) translateY(5px)' }}>
                   <button
                     onClick={() => setViewMode(1)}
-                    className="cursor-pointer transition-all duration-300 hover:brightness-125 flex items-center justify-center"
+                    className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125 flex items-center justify-center"
                     style={{ width: '30px', height: '30px' }}
                   >
                     <img src="/icon-1.png" alt="תצוגה 1" style={{ width: '30px', height: '30px', objectFit: 'contain', pointerEvents: 'none', transform: 'scale(4) translateX(3px)', transformOrigin: 'center', opacity: viewMode === 1 ? 1 : 0.4, transition: 'opacity 0.3s' }} />
                   </button>
                   <button
                     onClick={() => setViewMode(2)}
-                    className="cursor-pointer transition-all duration-300 hover:brightness-125 flex items-center justify-center"
+                    className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125 flex items-center justify-center"
                     style={{ width: '30px', height: '30px' }}
                   >
                     <img src="/icon-2.png" alt="תצוגה 2" style={{ width: '30px', height: '30px', objectFit: 'contain', pointerEvents: 'none', transform: 'scale(4)', transformOrigin: 'center', opacity: viewMode === 2 ? 1 : 0.4, transition: 'opacity 0.3s' }} />
@@ -788,7 +788,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
                 <button
                   onClick={() => setFocusMode((f) => !f)}
                   title="מצב מיקוד"
-                  className="cursor-pointer transition-all duration-300 hover:brightness-125 flex items-center justify-center rounded-full"
+                  className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125 flex items-center justify-center rounded-full"
                   style={{ width: '35px', height: '35px' }}
                 >
                   <img src="/icon-eye.png" alt="מיקוד" style={{ width: '35px', height: '35px', objectFit: 'contain', pointerEvents: 'none', transform: `scale(4.85) translateY(1.1px)`, transformOrigin: 'center', opacity: focusMode ? 1 : 0.4, transition: 'opacity 0.3s' }} />
@@ -800,7 +800,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
                 <button
                   onClick={() => setMagnifyMode((m) => !m)}
                   title="מצב הגדלה"
-                  className="cursor-pointer transition-all duration-300 hover:brightness-125 flex items-center justify-center rounded-full"
+                  className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125 flex items-center justify-center rounded-full"
                   style={{ width: '35px', height: '35px' }}
                 >
                   <img src="/icon-magni.png" alt="הגדלה" style={{ width: '35px', height: '35px', objectFit: 'contain', pointerEvents: 'none', transform: `scale(2.98) translateX(-2.5px)`, transformOrigin: 'center', opacity: magnifyMode ? 1 : 0.4, transition: 'opacity 0.3s' }} />
@@ -871,7 +871,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
             </div>
 
             <button onClick={() => setParchmentMode(!parchmentMode)}
-              className="cursor-pointer transition-all duration-300 hover:brightness-125 flex items-center justify-center rounded-lg border"
+              className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125 flex items-center justify-center rounded-lg border"
               style={{
                 width: '36px', height: '36px',
                 borderColor: parchmentMode ? 'rgba(212,168,67,0.4)' : 'rgba(255,255,255,0.15)',
@@ -882,7 +882,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
               <span style={{ fontSize: '18px', lineHeight: 1 }}>{parchmentMode ? '🌙' : '📜'}</span>
             </button>
             <button onClick={() => setShowSettings(!showSettings)}
-              className="cursor-pointer transition-all duration-300 hover:brightness-125 flex items-center justify-center"
+              className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125 flex items-center justify-center"
               style={{ width: '70px', height: '70px' }}>
               <img src="/icon-settings.png" alt="הגדרות" style={{ width: '70px', height: '70px', objectFit: 'contain', pointerEvents: 'none', transform: 'scale(4)', transformOrigin: 'center' }} />
             </button>
@@ -977,7 +977,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
                 {verse.words.map((word, wIndex) => (
                   <span
                     key={wIndex}
-                    className={`inline transition-all duration-300 ${getWordClass(vIndex, wIndex)} ${syncEditMode ? 'cursor-pointer hover:!text-yellow-300' : (audio.hasSync ? 'cursor-pointer' : '')}`}
+                    className={`inline transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 ${getWordClass(vIndex, wIndex)} ${syncEditMode ? 'cursor-pointer hover:!text-yellow-300' : (audio.hasSync ? 'cursor-pointer' : '')}`}
                     onClick={(e) => {
                       e.stopPropagation();
                       if (syncEditMode) handleSyncEditClick(vIndex, wIndex);
@@ -995,7 +995,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
                 const transText = apiTrans || savedTrans;
                 if (transText) return (
                   <div
-                    className={`mt-1 mb-6 transition-all duration-300 ${editingTranslations ? 'cursor-text' : ''}`}
+                    className={`mt-1 mb-6 transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 ${editingTranslations ? 'cursor-text' : ''}`}
                     style={{
                       color: parchmentMode ? '#000000' : 'rgba(212, 168, 67, 0.6)',
                       fontSize: `${Math.max(16, fontSize * 0.55 * 1.5)}px`,
@@ -1058,7 +1058,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
                     <span
                       key={wIndex}
                       ref={isCurrentWord(vIndex, wIndex) ? wordRef : null}
-                      className={`inline transition-all duration-300 cursor-pointer ${getWordClass(vIndex, wIndex)} ${syncEditMode ? 'hover:!text-yellow-300' : ''}`}
+                      className={`inline transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 cursor-pointer ${getWordClass(vIndex, wIndex)} ${syncEditMode ? 'hover:!text-yellow-300' : ''}`}
                       onClick={() => {
                         if (syncEditMode) { handleSyncEditClick(vIndex, wIndex); }
                         else if (audio.hasSync) { handleWordSeek(vIndex, wIndex); }
@@ -1091,7 +1091,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
             <button
               onClick={() => setAdjustingBorders(false)}
               className="text-gold font-ui text-sm px-5 py-1.5 rounded-full border border-gold/40
-                         hover:bg-gold/10 cursor-pointer transition-all duration-300"
+                         hover:bg-gold/10 cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200"
               style={{ backgroundColor: '#0a0e1a' }}
             >
               ✓ סיום
@@ -1157,7 +1157,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
           {syncEditsCount > 0 && (
             <button
               onClick={saveSyncEdits}
-              className="px-3 py-1 rounded-lg border border-gold/50 text-gold text-sm font-ui cursor-pointer hover:bg-gold/10 transition-all duration-300"
+              className="px-3 py-1 rounded-lg border border-gold/50 text-gold text-sm font-ui cursor-pointer hover:bg-gold/10 transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200"
             >
               שמור
             </button>
@@ -1167,7 +1167,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
           )}
           <button
             onClick={() => { setSyncEditMode(false); setSyncEditsCount(0); setSyncSaveStatus(''); }}
-            className="px-3 py-1 rounded-lg border border-white/20 text-white/50 text-sm font-ui cursor-pointer hover:bg-white/5 transition-all duration-300"
+            className="px-3 py-1 rounded-lg border border-white/20 text-white/50 text-sm font-ui cursor-pointer hover:bg-white/5 transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200"
           >
             סגור
           </button>
@@ -1248,7 +1248,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
             <button
               onClick={goToNextChapter}
               disabled={chapter >= book.chapters}
-              className={`w-9 h-9 rounded-full border flex items-center justify-center text-base cursor-pointer transition-all duration-300 ${
+              className={`w-9 h-9 rounded-full border flex items-center justify-center text-base cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 ${
                 chapter < book.chapters
                   ? 'border-white/20 text-white/50 hover:text-gold hover:border-gold/40'
                   : 'border-white/10 text-white/15 cursor-default'
@@ -1261,7 +1261,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
               <button
                 onClick={audio.hasAudio ? audio.togglePlay : undefined}
                 className={`w-10 h-10 rounded-full border flex items-center justify-center
-                           transition-all duration-300 cursor-pointer text-base ${
+                           transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 cursor-pointer text-base ${
                              audio.hasAudio
                                ? 'border-gold/30 text-gold hover:bg-gold/10'
                                : 'border-white/10 text-white/20'
@@ -1272,7 +1272,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
               </button>
               {/* Volume slider — slides out on hover */}
               {audio.hasAudio && (
-                <div className="absolute left-full ml-1 opacity-0 group-hover/vol:opacity-100 pointer-events-none group-hover/vol:pointer-events-auto transition-all duration-300 flex items-center"
+                <div className="absolute left-full ml-1 opacity-0 group-hover/vol:opacity-100 pointer-events-none group-hover/vol:pointer-events-auto transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 flex items-center"
                   style={{ width: '90px' }}
                 >
                   <div className="bg-[#131830] border border-white/10 rounded-full px-2 py-1.5 flex items-center gap-1.5 shadow-lg">
@@ -1298,7 +1298,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
               <button
                 onClick={audio.stop}
                 className="w-8 h-8 rounded-full border border-white/15 flex items-center justify-center
-                           text-white/40 transition-all duration-300 cursor-pointer text-sm hover:text-gold hover:border-gold/30"
+                           text-white/40 transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 cursor-pointer text-sm hover:text-gold hover:border-gold/30"
                 title="עצור"
               >
                 ⏹
@@ -1309,7 +1309,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
               <button
                 onClick={() => setSyncEditMode(true)}
                 className="px-2 py-1 rounded-lg border border-white/15 text-white/30 text-[10px] font-ui
-                           cursor-pointer hover:text-gold hover:border-gold/30 transition-all duration-300"
+                           cursor-pointer hover:text-gold hover:border-gold/30 transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200"
                 title="עריכת סנכרון"
               >
                 Edit Sync
@@ -1319,7 +1319,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
             <button
               onClick={goToPrevChapter}
               disabled={chapter <= 1}
-              className={`w-9 h-9 rounded-full border flex items-center justify-center text-base cursor-pointer transition-all duration-300 ${
+              className={`w-9 h-9 rounded-full border flex items-center justify-center text-base cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 ${
                 chapter > 1
                   ? 'border-white/20 text-white/50 hover:text-gold hover:border-gold/40'
                   : 'border-white/10 text-white/15 cursor-default'
@@ -1336,7 +1336,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
           <button
             onClick={handleTranslate}
             className={`absolute left-4 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg border text-sm font-ui
-                       cursor-pointer transition-all duration-300 ${
+                       cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 ${
                          translating
                            ? 'border-gold/50 text-gold bg-gold/10'
                            : 'border-white/15 text-white/40 hover:text-gold hover:border-gold/30'
@@ -1351,7 +1351,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
             <button
               onClick={() => setShowSavedTranslations(prev => !prev)}
               className={`absolute left-24 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg border text-sm font-ui
-                         cursor-pointer transition-all duration-300 ${
+                         cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 ${
                            showSavedTranslations
                              ? 'border-gold/50 text-gold bg-gold/10'
                              : 'border-white/15 text-white/40 hover:text-gold hover:border-gold/30'
@@ -1367,14 +1367,14 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
             editingTranslations ? (
               <button
                 onClick={saveTranslationEdits}
-                className="absolute left-52 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg border border-green-500/50 text-green-400 text-sm font-ui cursor-pointer hover:bg-green-500/10 transition-all duration-300"
+                className="absolute left-52 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg border border-green-500/50 text-green-400 text-sm font-ui cursor-pointer hover:bg-green-500/10 transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200"
               >
                 שמור עריכה
               </button>
             ) : (
               <button
                 onClick={() => setEditingTranslations(true)}
-                className="absolute left-52 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg border border-white/15 text-white/40 text-sm font-ui cursor-pointer hover:text-gold hover:border-gold/30 transition-all duration-300"
+                className="absolute left-52 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg border border-white/15 text-white/40 text-sm font-ui cursor-pointer hover:text-gold hover:border-gold/30 transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200"
               >
                 ערוך תרגום
               </button>
@@ -1388,11 +1388,9 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
             dir="rtl"
           >
             <div
-              className="relative rounded-full overflow-hidden transition-all duration-300"
+              className="relative rounded-full overflow-hidden transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200"
               style={{
-                background: 'rgba(212,168,67,0.04)',
-                backdropFilter: 'blur(10px) saturate(140%)',
-                WebkitBackdropFilter: 'blur(10px) saturate(140%)',
+                background: 'linear-gradient(180deg, rgba(30,24,12,0.78), rgba(15,12,6,0.85))',
                 border: searchFocused
                   ? '1px solid rgba(212,168,67,0.6)'
                   : '1px solid rgba(255,255,255,0.15)',

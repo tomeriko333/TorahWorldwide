@@ -26,7 +26,7 @@ export default function BookSelector({ onSelectBook, onBack, theme, light }) {
           <button
             key={book.english}
             onClick={() => onSelectBook(book)}
-            className="group relative py-5 px-8 border rounded-xl transition-all duration-300 cursor-pointer text-right"
+            className="group relative py-5 px-8 border rounded-xl transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 cursor-pointer text-right"
             style={{ backgroundColor: light ? 'rgba(0,0,0,0.03)' : 'rgba(255,255,255,0.03)', borderColor: subtleColor }}
             onMouseEnter={(e) => { e.currentTarget.style.borderColor = hoverBorder; }}
             onMouseLeave={(e) => { e.currentTarget.style.borderColor = subtleColor; }}

@@ -6,7 +6,7 @@ export default function SpeedControl({ playing, onTogglePlay, speed, onSpeedChan
         <button
           onClick={onPrev}
           disabled={!hasPrev}
-          className={`w-10 h-10 rounded-full border flex items-center justify-center text-lg cursor-pointer transition-all duration-300 ${
+          className={`w-10 h-10 rounded-full border flex items-center justify-center text-lg cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 ${
             hasPrev
               ? 'border-white/20 text-white/50 hover:text-gold hover:border-gold/40'
               : 'border-white/10 text-white/15 cursor-default'
@@ -20,7 +20,7 @@ export default function SpeedControl({ playing, onTogglePlay, speed, onSpeedChan
         <button
           onClick={onTogglePlay}
           className="w-12 h-12 rounded-full border border-gold/30 flex items-center justify-center
-                     text-gold transition-all duration-300 cursor-pointer text-lg"
+                     text-gold transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 cursor-pointer text-lg"
           title={playing ? 'השהה (Space)' : 'נגן (Space)'}
         >
           {playing ? '⏸' : '▶'}
@@ -30,7 +30,7 @@ export default function SpeedControl({ playing, onTogglePlay, speed, onSpeedChan
         <button
           onClick={onNext}
           disabled={!hasNext}
-          className={`w-10 h-10 rounded-full border flex items-center justify-center text-lg cursor-pointer transition-all duration-300 ${
+          className={`w-10 h-10 rounded-full border flex items-center justify-center text-lg cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 ${
             hasNext
               ? 'border-white/20 text-white/50 hover:text-gold hover:border-gold/40'
               : 'border-white/10 text-white/15 cursor-default'
