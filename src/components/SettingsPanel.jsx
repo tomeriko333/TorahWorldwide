@@ -140,15 +140,16 @@ function SpeedSlider({ value, min, max, onChange }) {
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
         className="absolute inset-0 w-full h-full appearance-none bg-transparent outline-none cursor-pointer
-                   [&::-webkit-slider-runnable-track]:bg-transparent [&::-webkit-slider-runnable-track]:h-full
+                   [&::-webkit-slider-runnable-track]:h-[4px] [&::-webkit-slider-runnable-track]:bg-transparent
                    [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-[18px]
                    [&::-webkit-slider-thumb]:h-[18px] [&::-webkit-slider-thumb]:rounded-full
                    [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:cursor-pointer
-                   [&::-webkit-slider-thumb]:shadow-[0_2px_6px_rgba(0,0,0,0.4)] [&::-webkit-slider-thumb]:border-0
-                   [&::-moz-range-track]:bg-transparent
+                   [&::-webkit-slider-thumb]:-mt-[7px] [&::-webkit-slider-thumb]:shadow-none
+                   [&::-webkit-slider-thumb]:border-0
+                   [&::-moz-range-track]:h-[4px] [&::-moz-range-track]:bg-transparent
                    [&::-moz-range-thumb]:w-[18px] [&::-moz-range-thumb]:h-[18px]
                    [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-white
-                   [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:shadow-[0_2px_6px_rgba(0,0,0,0.4)]"
+                   [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:shadow-none"
       />
     </div>
   );
@@ -259,12 +260,6 @@ export default function SettingsPanel({ settings, onUpdate, onClose, onAdjustBor
             backgroundColor: 'rgba(0,0,0,0.18)',
           }}
         >
-          {/* Section heading — Hebrew label first so it sits on the right (RTL) */}
-          <div className="flex items-center gap-2 mb-4">
-            <span className="text-white/50 font-ui" style={{ fontSize: '12px' }}>קיצורי מקלדת</span>
-            <Icon.Keyboard />
-          </div>
-
           {/* 2×2 grid — content-width columns, centered as a block so kbd chips align vertically and the pairs sit tight */}
           <div
             className="grid gap-y-3 gap-x-6 text-white/70 font-ui"

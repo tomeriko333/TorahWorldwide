@@ -468,7 +468,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
         <div className="mb-11 flex justify-center">
           <div
             dir="rtl"
-            className="max-h-[260px] overflow-y-auto py-5 px-4"
+            className="max-h-[260px] overflow-y-auto overflow-x-hidden py-5 px-4"
             style={{
               width: '100%',
               maxWidth: chapterGridMaxWidth,
