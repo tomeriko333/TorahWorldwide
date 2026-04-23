@@ -23,11 +23,16 @@ const Icon = {
     </svg>
   ),
   Aleph: ({ size = 20 }) => (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M7 5l10 14" />
-      <path d="M17 5l-6 8" />
-      <path d="M7 19c2-2 3-4 4-6" />
-    </svg>
+    <span
+      style={{
+        fontSize: `${size}px`,
+        lineHeight: 1,
+        color: GOLD,
+        fontFamily: "'TrashimCLM', 'Frank Ruhl Libre', serif",
+        fontWeight: 500,
+        transform: 'translateY(-1px)',
+      }}
+    >א</span>
   ),
   Lines: ({ size = 20 }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -59,8 +64,8 @@ function Toggle({ on, onChange }) {
       onClick={onChange}
       className="cursor-pointer rounded-full transition-all duration-300 relative"
       style={{
-        width: '40px',
-        height: '22px',
+        width: '46px',
+        height: '26px',
         backgroundColor: on ? GOLD : 'rgba(255,255,255,0.12)',
         boxShadow: on ? `0 0 12px rgba(212,168,67,0.45), inset 0 1px 2px rgba(0,0,0,0.3)` : 'inset 0 1px 2px rgba(0,0,0,0.4)',
       }}
@@ -68,9 +73,9 @@ function Toggle({ on, onChange }) {
       <div
         className="absolute top-1/2 rounded-full bg-white transition-all duration-300"
         style={{
-          width: '16px',
-          height: '16px',
-          transform: `translateY(-50%) translateX(${on ? '-3px' : '-21px'})`,
+          width: '20px',
+          height: '20px',
+          transform: `translateY(-50%) translateX(${on ? '-3px' : '-23px'})`,
           right: 0,
           boxShadow: '0 2px 4px rgba(0,0,0,0.35)',
         }}
@@ -82,22 +87,22 @@ function Toggle({ on, onChange }) {
 function Row({ icon, label, children, divider = true }) {
   return (
     <div
-      className="flex items-center justify-between py-3.5"
+      className="flex items-center justify-between py-4"
       style={divider ? { borderBottom: '1px solid rgba(212,168,67,0.08)' } : {}}
     >
       <div className="flex items-center gap-3" style={{ flexDirection: 'row-reverse' }}>
         <div
           className="flex items-center justify-center rounded-lg"
           style={{
-            width: '34px',
-            height: '34px',
+            width: '38px',
+            height: '38px',
             backgroundColor: 'rgba(212,168,67,0.08)',
             border: '1px solid rgba(212,168,67,0.18)',
           }}
         >
           {icon}
         </div>
-        <span className="text-white/85 text-sm font-ui">{label}</span>
+        <span className="text-white/85 font-ui" style={{ fontSize: '15px' }}>{label}</span>
       </div>
       <div className="flex items-center">{children}</div>
     </div>
@@ -117,8 +122,9 @@ export default function SettingsPanel({ settings, onUpdate, onClose, onAdjustBor
       onClick={onClose}
     >
       <div
-        className="w-full max-w-sm mx-4 overflow-hidden"
+        className="w-full overflow-hidden mx-4"
         style={{
+          maxWidth: '460px',
           background: 'linear-gradient(180deg, rgba(30,36,60,0.96) 0%, rgba(18,22,40,0.98) 100%)',
           borderRadius: '20px',
           border: '1px solid rgba(212,168,67,0.22)',
@@ -129,34 +135,34 @@ export default function SettingsPanel({ settings, onUpdate, onClose, onAdjustBor
       >
         {/* Header */}
         <div
-          className="flex items-center justify-between px-5 py-4"
+          className="flex items-center justify-between px-6 py-5"
           style={{ borderBottom: '1px solid rgba(212,168,67,0.15)' }}
         >
-          <h3 className="font-torah text-xl" style={{ color: GOLD, letterSpacing: '0.02em' }}>הגדרות</h3>
+          <h3 className="font-torah text-2xl" style={{ color: GOLD, letterSpacing: '0.02em' }}>הגדרות</h3>
           <button
             onClick={onClose}
             className="rounded-full flex items-center justify-center text-white/40 hover:text-white/90 transition-all duration-200 cursor-pointer"
-            style={{ width: '28px', height: '28px', backgroundColor: 'rgba(255,255,255,0.04)' }}
+            style={{ width: '32px', height: '32px', backgroundColor: 'rgba(255,255,255,0.04)' }}
           >
-            <Icon.Close />
+            <Icon.Close size={18} />
           </button>
         </div>
 
         {/* Content */}
-        <div className="px-5 pb-2">
+        <div className="px-6 pb-2">
           {/* Reading speed */}
-          <div className="pt-4 pb-3" style={{ borderBottom: '1px solid rgba(212,168,67,0.08)' }}>
-            <div className="flex items-center justify-between mb-3">
+          <div className="pt-5 pb-4" style={{ borderBottom: '1px solid rgba(212,168,67,0.08)' }}>
+            <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3" style={{ flexDirection: 'row-reverse' }}>
                 <div
                   className="flex items-center justify-center rounded-lg"
-                  style={{ width: '34px', height: '34px', backgroundColor: 'rgba(212,168,67,0.08)', border: '1px solid rgba(212,168,67,0.18)' }}
+                  style={{ width: '38px', height: '38px', backgroundColor: 'rgba(212,168,67,0.08)', border: '1px solid rgba(212,168,67,0.18)' }}
                 >
-                  <Icon.Speed />
+                  <Icon.Speed size={22} />
                 </div>
-                <span className="text-white/85 text-sm font-ui">מהירות קריאה</span>
+                <span className="text-white/85 font-ui" style={{ fontSize: '15px' }}>מהירות קריאה</span>
               </div>
-              <span className="text-xs font-ui" style={{ color: GOLD }}>
+              <span className="text-sm font-ui" style={{ color: GOLD }}>
                 {settings.speed} <span className="text-white/40">מילים/דקה</span>
               </span>
             </div>
@@ -170,7 +176,11 @@ export default function SettingsPanel({ settings, onUpdate, onClose, onAdjustBor
                          [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4
                          [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full
                          [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:cursor-pointer
-                         [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(212,168,67,0.7)]"
+                         [&::-webkit-slider-thumb]:-mt-[6px] [&::-webkit-slider-thumb]:shadow-none
+                         [&::-webkit-slider-thumb]:border-0
+                         [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full
+                         [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-0
+                         [&::-moz-range-thumb]:shadow-none"
               style={{
                 background: `linear-gradient(to left, ${GOLD} 0%, ${GOLD} ${((settings.speed - 30) / 170) * 100}%, rgba(255,255,255,0.12) ${((settings.speed - 30) / 170) * 100}%, rgba(255,255,255,0.12) 100%)`,
               }}
@@ -213,39 +223,42 @@ export default function SettingsPanel({ settings, onUpdate, onClose, onAdjustBor
 
         {/* Keyboard shortcuts footer */}
         <div
-          className="px-5 py-4"
+          className="px-6 py-5"
           style={{
             borderTop: '1px solid rgba(212,168,67,0.15)',
             backgroundColor: 'rgba(0,0,0,0.18)',
           }}
         >
-          <div className="flex items-center gap-2 mb-3" style={{ flexDirection: 'row-reverse' }}>
-            <Icon.Keyboard />
-            <span className="text-white/50 text-xs font-ui">קיצורי מקלדת</span>
+          <div className="flex items-center gap-2 mb-4" style={{ flexDirection: 'row-reverse' }}>
+            <Icon.Keyboard size={16} />
+            <span className="text-white/50 font-ui" style={{ fontSize: '12px' }}>קיצורי מקלדת</span>
           </div>
-          <div className="grid grid-cols-2 gap-y-2 gap-x-3 text-white/60 text-[11px] font-ui">
+          <div className="space-y-3 text-white/65 font-ui" style={{ fontSize: '12px' }}>
             {[
-              ['רווח', 'נגן / השהה'],
-              ['Esc', 'חזרה'],
-              ['←', 'פסוק הבא'],
-              ['→', 'פסוק קודם'],
-            ].map(([key, desc]) => (
-              <div key={key} className="flex items-center gap-2" style={{ flexDirection: 'row-reverse' }}>
-                <kbd
-                  className="font-mono text-[10px]"
-                  style={{
-                    minWidth: '28px',
-                    textAlign: 'center',
-                    padding: '2px 6px',
-                    borderRadius: '4px',
-                    backgroundColor: 'rgba(212,168,67,0.1)',
-                    border: '1px solid rgba(212,168,67,0.25)',
-                    color: GOLD,
-                  }}
-                >
-                  {key}
-                </kbd>
-                <span>{desc}</span>
+              [['רווח', 'נגן / השהה'], ['Esc', 'חזרה']],
+              [['←', 'פסוק הבא'], ['→', 'פסוק קודם']],
+            ].map((pairs, ri) => (
+              <div key={ri} className="flex items-center justify-around">
+                {pairs.map(([key, desc]) => (
+                  <div key={key} className="flex items-center gap-2">
+                    <kbd
+                      className="font-mono"
+                      style={{
+                        fontSize: '11px',
+                        minWidth: '32px',
+                        textAlign: 'center',
+                        padding: '3px 8px',
+                        borderRadius: '5px',
+                        backgroundColor: 'rgba(212,168,67,0.1)',
+                        border: '1px solid rgba(212,168,67,0.25)',
+                        color: GOLD,
+                      }}
+                    >
+                      {key}
+                    </kbd>
+                    <span>{desc}</span>
+                  </div>
+                ))}
               </div>
             ))}
           </div>
