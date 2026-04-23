@@ -105,7 +105,7 @@ function IconBox({ children }) {
 function Row({ icon, label, children, divider = true }) {
   return (
     <div
-      className="flex items-center justify-between py-3.5"
+      className="flex items-center justify-between py-5"
       style={divider ? { borderBottom: '1px solid rgba(212,168,67,0.08)' } : {}}
     >
       <div className="flex items-center gap-3">
@@ -182,7 +182,7 @@ export default function SettingsPanel({ settings, onUpdate, onClose, onAdjustBor
       >
         {/* Header */}
         <div
-          className="flex items-center justify-between py-5"
+          className="flex items-center justify-between py-6"
           style={{ paddingInline: PAD_X, borderBottom: '1px solid rgba(212,168,67,0.15)' }}
         >
           <h3 className="font-torah text-2xl" style={{ color: GOLD, letterSpacing: '0.02em' }}>הגדרות</h3>
@@ -196,9 +196,9 @@ export default function SettingsPanel({ settings, onUpdate, onClose, onAdjustBor
         </div>
 
         {/* Content */}
-        <div style={{ paddingInline: PAD_X, paddingBottom: '8px' }}>
+        <div style={{ paddingInline: PAD_X, paddingTop: '6px', paddingBottom: '10px' }}>
           {/* Reading speed */}
-          <div className="pt-5 pb-4" style={{ borderBottom: '1px solid rgba(212,168,67,0.08)' }}>
+          <div className="pt-6 pb-5" style={{ borderBottom: '1px solid rgba(212,168,67,0.08)' }}>
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <IconBox><Icon.Speed /></IconBox>
@@ -252,7 +252,7 @@ export default function SettingsPanel({ settings, onUpdate, onClose, onAdjustBor
 
         {/* Keyboard shortcuts footer */}
         <div
-          className="py-5"
+          className="py-6"
           style={{
             paddingInline: PAD_X,
             borderTop: '1px solid rgba(212,168,67,0.15)',
@@ -265,12 +265,13 @@ export default function SettingsPanel({ settings, onUpdate, onClose, onAdjustBor
             <Icon.Keyboard />
           </div>
 
-          {/* 2×2 grid — kbd chips column-aligned, labels right-aligned */}
+          {/* 2×2 grid — content-width columns, centered as a block so kbd chips align vertically and the pairs sit tight */}
           <div
-            className="grid gap-y-3 gap-x-4 text-white/70 font-ui"
+            className="grid gap-y-3 gap-x-6 text-white/70 font-ui"
             style={{
               fontSize: '12.5px',
-              gridTemplateColumns: '38px 1fr 38px 1fr',
+              gridTemplateColumns: '38px max-content 38px max-content',
+              justifyContent: 'center',
               alignItems: 'center',
             }}
           >
@@ -279,9 +280,9 @@ export default function SettingsPanel({ settings, onUpdate, onClose, onAdjustBor
               ['←', 'פסוק הבא', '→', 'פסוק קודם'],
             ].flatMap((row, ri) => [
               <kbd key={`k1-${ri}`} className="font-mono" style={kbdStyle}>{row[0]}</kbd>,
-              <span key={`l1-${ri}`} className="text-right">{row[1]}</span>,
+              <span key={`l1-${ri}`}>{row[1]}</span>,
               <kbd key={`k2-${ri}`} className="font-mono" style={kbdStyle}>{row[2]}</kbd>,
-              <span key={`l2-${ri}`} className="text-right">{row[3]}</span>,
+              <span key={`l2-${ri}`}>{row[3]}</span>,
             ])}
           </div>
         </div>
