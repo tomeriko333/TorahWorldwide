@@ -150,7 +150,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
 
   return (
     <div
-      className={`flex flex-col items-center ${isMobile ? 'justify-start' : 'justify-center'} ${exiting ? 'splash-exit' : 'splash-enter'}`}
+      className={`min-h-screen flex flex-col items-center ${isMobile ? 'justify-start' : 'justify-center'} px-6 ${exiting ? 'splash-exit' : 'splash-enter'}`}
       style={{
         backgroundImage: `url(${WALLPAPERS[wallpaperIdx]})`,
         backgroundSize: 'cover',
@@ -158,12 +158,13 @@ export default function HomeScreen({ onStart, onPerushim }) {
         backgroundRepeat: 'no-repeat',
         backgroundColor: '#050508',
         transition: 'background-image 0.6s ease',
-        // 100dvh = current visible area on mobile (100vh otherwise includes
-        // the iOS URL bar area, which pushes content below the fold).
-        height: '100dvh',
+        // Mobile uses 100dvh so the iOS URL bar doesn't push content below
+        // the fold; desktop keeps 100vh exactly like before.
+        height: isMobile ? '100dvh' : '100vh',
         overflow: 'hidden',
-        paddingLeft: isMobile ? '8px' : '24px',
-        paddingRight: isMobile ? '8px' : '24px',
+        // Shrink the side gutter on mobile only; desktop stays at px-6 from
+        // the tailwind class.
+        ...(isMobile ? { paddingLeft: '8px', paddingRight: '8px' } : {}),
       }}
     >
       {/* Settings gear — top-left, hidden when uiHidden */}
@@ -387,26 +388,21 @@ export default function HomeScreen({ onStart, onPerushim }) {
       </div>
       )}
 
-      {!uiHidden && (
+      {!uiHidden && !isMobile && (
+      /* ======== DESKTOP content block — identical to original pre-mobile version ======== */
       <div
         className="relative z-10 w-full text-center"
         style={{
-          maxWidth: isMobile ? '100%' : contentMaxWidth,
-          paddingBottom: isMobile ? '0.25rem' : '2rem',
-          // Mobile: push content down so it sits roughly centered between title
-          // and the search bar instead of crammed under the title.
-          marginTop: isMobile ? '200px' : '180px',
-          zoom: isMobile ? 1 : 0.9,
+          maxWidth: contentMaxWidth,
+          paddingBottom: '2rem',
+          marginTop: '180px',
+          zoom: 0.9,
           transition: 'max-width 0.45s cubic-bezier(0.22, 1, 0.36, 1)',
         }}
       >
         <div className="relative">
         {/* Section tabs — glass nav */}
-        <div
-          className="flex justify-center"
-          style={{ gap: isMobile ? '18px' : '44px', marginBottom: isMobile ? '12px' : '32px' }}
-          dir="rtl"
-        >
+        <div className="mb-8 flex justify-center gap-11" dir="rtl">
           {sections.map((section) => {
             const isActive = activeSection === section.english;
             return (
@@ -416,8 +412,8 @@ export default function HomeScreen({ onStart, onPerushim }) {
                 className="relative cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 pb-2"
                 style={{
                   fontFamily: 'var(--font-title)',
-                  fontSize: isMobile ? '0.82rem' : '1.15rem',
-                  letterSpacing: isMobile ? '0.1em' : '0.22em',
+                  fontSize: '1.15rem',
+                  letterSpacing: '0.22em',
                   color: isActive ? '#f4d78a' : 'rgba(255,255,255,0.88)',
                   textShadow: isActive
                     ? '0 2px 8px rgba(0,0,0,0.95), 0 0 20px rgba(212,168,67,0.75)'
@@ -441,17 +437,9 @@ export default function HomeScreen({ onStart, onPerushim }) {
         </div>
 
         {/* Book boxes — split into balanced rows (top has one more when odd) */}
-        <div
-          className="flex flex-col"
-          style={{ gap: isMobile ? '6px' : '10px', marginBottom: isMobile ? '14px' : '40px' }}
-          dir="rtl"
-        >
+        <div className="mb-10 flex flex-col gap-2.5" dir="rtl">
           {bookRows.map((row, rowIdx) => (
-            <div
-              key={rowIdx}
-              className="flex justify-center flex-wrap"
-              style={{ gap: isMobile ? '6px' : '10px' }}
-            >
+            <div key={rowIdx} className="flex gap-2.5 justify-center">
               {row.map((book) => {
                 const isActive = selectedBook.english === book.english;
                 return (
@@ -460,10 +448,10 @@ export default function HomeScreen({ onStart, onPerushim }) {
                     onClick={() => handleBookChange(book)}
                     className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200"
                     style={{
-                      minWidth: isMobile ? '56px' : '110px',
-                      padding: isMobile ? '6px 10px' : '10px 20px',
-                      borderRadius: isMobile ? '8px' : '10px',
-                      fontSize: isMobile ? '0.92rem' : '1.2rem',
+                      minWidth: '110px',
+                      padding: '10px 20px',
+                      borderRadius: '10px',
+                      fontSize: '1.2rem',
                       fontFamily: 'var(--font-title)',
                       letterSpacing: '0.02em',
                       color: isActive ? '#f4d78a' : 'rgba(255,255,255,0.92)',
@@ -490,28 +478,20 @@ export default function HomeScreen({ onStart, onPerushim }) {
         </div>
 
         {/* "בחר פרק" ornamental header */}
-        <div
-          className="flex items-center justify-center"
-          style={{
-            gap: isMobile ? '14px' : '24px',
-            marginTop: isMobile ? '0' : '12px',
-            marginBottom: isMobile ? '8px' : '28px',
-          }}
-          dir="rtl"
-        >
+        <div className="flex items-center justify-center gap-6 mt-3 mb-7" dir="rtl">
           <div style={{
             height: '1px',
             flex: 1,
-            maxWidth: isMobile ? '60px' : '150px',
+            maxWidth: '150px',
             background: 'linear-gradient(90deg, transparent, rgba(244,215,138,0.8))',
             boxShadow: '0 0 6px rgba(212,168,67,0.4)',
           }} />
           <span
             style={{
               fontFamily: 'var(--font-title)',
-              fontSize: isMobile ? '0.8rem' : '1rem',
+              fontSize: '1rem',
               color: '#f4d78a',
-              letterSpacing: isMobile ? '0.24em' : '0.4em',
+              letterSpacing: '0.4em',
               textShadow: '0 2px 8px rgba(0,0,0,0.95), 0 0 14px rgba(244,215,138,0.6)',
             }}
           >
@@ -520,34 +500,26 @@ export default function HomeScreen({ onStart, onPerushim }) {
           <div style={{
             height: '1px',
             flex: 1,
-            maxWidth: isMobile ? '60px' : '150px',
+            maxWidth: '150px',
             background: 'linear-gradient(90deg, rgba(244,215,138,0.8), transparent)',
             boxShadow: '0 0 6px rgba(212,168,67,0.4)',
           }} />
         </div>
 
         {/* Chapter grid — breathes with chapter count (wider for Psalms-scale books) */}
-        <div
-          className="flex justify-center"
-          style={{ marginBottom: isMobile ? '10px' : '44px' }}
-        >
+        <div className="mb-11 flex justify-center">
           <div
             dir="rtl"
-            className="overflow-y-auto overflow-x-hidden"
+            className="max-h-[260px] overflow-y-auto overflow-x-hidden py-5 px-4"
             style={{
               width: '100%',
-              maxWidth: isMobile ? '96vw' : chapterGridMaxWidth,
-              maxHeight: isMobile ? '200px' : '260px',
-              padding: isMobile ? '8px 6px' : '20px 16px',
+              maxWidth: chapterGridMaxWidth,
               transition: 'max-width 0.45s cubic-bezier(0.22, 1, 0.36, 1)',
             }}
           >
             <div
-              className="grid justify-items-center"
-              style={{
-                gap: isMobile ? '5px' : '8px',
-                gridTemplateColumns: `repeat(${isMobile ? Math.min(chapterCols, chapterCount <= 12 ? 6 : chapterCount <= 30 ? 7 : chapterCount <= 80 ? 8 : 8) : chapterCols}, minmax(0, 1fr))`,
-              }}
+              className="grid gap-2 justify-items-center"
+              style={{ gridTemplateColumns: `repeat(${chapterCols}, minmax(0, 1fr))` }}
             >
               {chapters.map((num) => {
                 const isActive = selectedChapter === num;
@@ -557,10 +529,10 @@ export default function HomeScreen({ onStart, onPerushim }) {
                     onClick={() => setSelectedChapter(num)}
                     className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 flex items-center justify-center"
                     style={{
-                      width: isMobile ? '36px' : '44px',
-                      height: isMobile ? '36px' : '44px',
-                      borderRadius: isMobile ? '6px' : '8px',
-                      fontSize: isMobile ? '0.85rem' : '1rem',
+                      width: '44px',
+                      height: '44px',
+                      borderRadius: '8px',
+                      fontSize: '1rem',
                       fontFamily: 'var(--font-ui)',
                       color: isActive ? '#f4d78a' : 'rgba(255,255,255,0.92)',
                       background: isActive
@@ -586,14 +558,13 @@ export default function HomeScreen({ onStart, onPerushim }) {
         {/* Primary CTA — glass gold */}
         <button
           onClick={handleStart}
-          className="inline-flex items-center justify-center cursor-pointer transition-all duration-500 hover:brightness-110"
+          className="inline-flex items-center justify-center rounded-xl cursor-pointer transition-all duration-500 hover:brightness-110"
           style={{
-            marginTop: isMobile ? '14px' : '18px',
-            padding: isMobile ? '8px 24px' : '16px 56px',
+            marginTop: '18px',
+            padding: '16px 56px',
             background: 'linear-gradient(180deg, rgba(212,168,67,0.5), rgba(140,100,35,0.72))',
             border: '1.5px solid rgba(244,215,138,0.88)',
-            borderRadius: isMobile ? '10px' : '12px',
-            fontSize: isMobile ? '0.98rem' : '1.38rem',
+            fontSize: '1.38rem',
             color: '#f8dfa0',
             letterSpacing: '0.08em',
             fontFamily: 'var(--font-title)',
@@ -606,14 +577,239 @@ export default function HomeScreen({ onStart, onPerushim }) {
         </button>
 
         {/* Secondary — Perushim */}
-        <div style={{ marginTop: isMobile ? '16px' : '28px' }}>
+        <div className="mt-7">
           <button
             onClick={onPerushim}
             className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200"
             style={{
               fontFamily: 'var(--font-title)',
-              fontSize: isMobile ? '0.88rem' : '1.06rem',
-              letterSpacing: isMobile ? '0.18em' : '0.28em',
+              fontSize: '1.06rem',
+              letterSpacing: '0.28em',
+              color: 'rgba(255,255,255,0.82)',
+              textShadow: '0 2px 8px rgba(0,0,0,0.95)',
+            }}
+          >
+            פירושים
+          </button>
+        </div>
+        </div>
+      </div>
+      )}
+
+      {!uiHidden && isMobile && (
+      /* ======== MOBILE content block — compact sizes tuned for ≤640px ======== */
+      <div
+        className="relative z-10 w-full text-center"
+        style={{
+          maxWidth: '100%',
+          paddingBottom: '0.25rem',
+          marginTop: '200px',
+          transition: 'max-width 0.45s cubic-bezier(0.22, 1, 0.36, 1)',
+        }}
+      >
+        <div className="relative">
+        {/* Section tabs */}
+        <div
+          className="flex justify-center"
+          style={{ gap: '18px', marginBottom: '12px' }}
+          dir="rtl"
+        >
+          {sections.map((section) => {
+            const isActive = activeSection === section.english;
+            return (
+              <button
+                key={section.english}
+                onClick={() => setActiveSection(section.english)}
+                className="relative cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 pb-2"
+                style={{
+                  fontFamily: 'var(--font-title)',
+                  fontSize: '0.82rem',
+                  letterSpacing: '0.1em',
+                  color: isActive ? '#f4d78a' : 'rgba(255,255,255,0.88)',
+                  textShadow: isActive
+                    ? '0 2px 8px rgba(0,0,0,0.95), 0 0 20px rgba(212,168,67,0.75)'
+                    : '0 2px 8px rgba(0,0,0,0.95)',
+                }}
+              >
+                {section.name}
+                <span
+                  aria-hidden
+                  className="absolute left-1/2 -translate-x-1/2 -bottom-0.5 transition-all duration-400"
+                  style={{
+                    height: '1.5px',
+                    width: isActive ? '100%' : '0%',
+                    background: 'linear-gradient(90deg, transparent, #f4d78a 50%, transparent)',
+                    boxShadow: isActive ? '0 0 8px rgba(244,215,138,0.6)' : 'none',
+                  }}
+                />
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Book boxes */}
+        <div
+          className="flex flex-col"
+          style={{ gap: '6px', marginBottom: '14px' }}
+          dir="rtl"
+        >
+          {bookRows.map((row, rowIdx) => (
+            <div key={rowIdx} className="flex justify-center flex-wrap" style={{ gap: '6px' }}>
+              {row.map((book) => {
+                const isActive = selectedBook.english === book.english;
+                return (
+                  <button
+                    key={book.english}
+                    onClick={() => handleBookChange(book)}
+                    className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200"
+                    style={{
+                      minWidth: '56px',
+                      padding: '6px 10px',
+                      borderRadius: '8px',
+                      fontSize: '0.92rem',
+                      fontFamily: 'var(--font-title)',
+                      letterSpacing: '0.02em',
+                      color: isActive ? '#f4d78a' : 'rgba(255,255,255,0.92)',
+                      background: isActive
+                        ? 'linear-gradient(180deg, rgba(212,168,67,0.42), rgba(140,100,35,0.72))'
+                        : 'linear-gradient(180deg, rgba(20,28,50,0.82), rgba(10,14,26,0.9))',
+                      border: isActive
+                        ? '1.5px solid rgba(244,215,138,0.85)'
+                        : '1px solid rgba(255,255,255,0.25)',
+                      textShadow: isActive
+                        ? '0 2px 8px rgba(0,0,0,0.95), 0 0 14px rgba(244,215,138,0.65)'
+                        : '0 2px 8px rgba(0,0,0,0.95)',
+                      boxShadow: isActive
+                        ? '0 0 30px rgba(212,168,67,0.4), inset 0 0 12px rgba(212,168,67,0.1)'
+                        : '0 3px 14px rgba(0,0,0,0.55)',
+                    }}
+                  >
+                    {book.hebrew}
+                  </button>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+
+        {/* "בחר פרק" header */}
+        <div
+          className="flex items-center justify-center"
+          style={{ gap: '14px', marginTop: '0', marginBottom: '8px' }}
+          dir="rtl"
+        >
+          <div style={{
+            height: '1px',
+            flex: 1,
+            maxWidth: '60px',
+            background: 'linear-gradient(90deg, transparent, rgba(244,215,138,0.8))',
+            boxShadow: '0 0 6px rgba(212,168,67,0.4)',
+          }} />
+          <span
+            style={{
+              fontFamily: 'var(--font-title)',
+              fontSize: '0.8rem',
+              color: '#f4d78a',
+              letterSpacing: '0.24em',
+              textShadow: '0 2px 8px rgba(0,0,0,0.95), 0 0 14px rgba(244,215,138,0.6)',
+            }}
+          >
+            בחר פרק
+          </span>
+          <div style={{
+            height: '1px',
+            flex: 1,
+            maxWidth: '60px',
+            background: 'linear-gradient(90deg, rgba(244,215,138,0.8), transparent)',
+            boxShadow: '0 0 6px rgba(212,168,67,0.4)',
+          }} />
+        </div>
+
+        {/* Chapter grid */}
+        <div className="flex justify-center" style={{ marginBottom: '10px' }}>
+          <div
+            dir="rtl"
+            className="overflow-y-auto overflow-x-hidden"
+            style={{
+              width: '100%',
+              maxWidth: '96vw',
+              maxHeight: '200px',
+              padding: '8px 6px',
+              transition: 'max-width 0.45s cubic-bezier(0.22, 1, 0.36, 1)',
+            }}
+          >
+            <div
+              className="grid justify-items-center"
+              style={{
+                gap: '5px',
+                gridTemplateColumns: `repeat(${Math.min(chapterCols, chapterCount <= 12 ? 6 : chapterCount <= 30 ? 7 : 8)}, minmax(0, 1fr))`,
+              }}
+            >
+              {chapters.map((num) => {
+                const isActive = selectedChapter === num;
+                return (
+                  <button
+                    key={num}
+                    onClick={() => setSelectedChapter(num)}
+                    className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 flex items-center justify-center"
+                    style={{
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '6px',
+                      fontSize: '0.85rem',
+                      fontFamily: 'var(--font-ui)',
+                      color: isActive ? '#f4d78a' : 'rgba(255,255,255,0.92)',
+                      background: isActive
+                        ? 'radial-gradient(circle, rgba(244,215,138,0.32), rgba(212,168,67,0.06))'
+                        : 'rgba(255,255,255,0.05)',
+                      border: isActive
+                        ? '1.5px solid rgba(244,215,138,0.9)'
+                        : '1px solid rgba(255,255,255,0.16)',
+                      textShadow: isActive
+                        ? '0 1px 4px rgba(0,0,0,0.95), 0 0 12px rgba(244,215,138,0.75)'
+                        : '0 1px 4px rgba(0,0,0,0.9)',
+                      animation: isActive ? 'chapter-pulse 2.4s ease-in-out infinite' : 'none',
+                    }}
+                  >
+                    {hn(num)}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Primary CTA */}
+        <button
+          onClick={handleStart}
+          className="inline-flex items-center justify-center cursor-pointer transition-all duration-500 hover:brightness-110"
+          style={{
+            marginTop: '14px',
+            padding: '8px 24px',
+            background: 'linear-gradient(180deg, rgba(212,168,67,0.5), rgba(140,100,35,0.72))',
+            border: '1.5px solid rgba(244,215,138,0.88)',
+            borderRadius: '10px',
+            fontSize: '0.98rem',
+            color: '#f8dfa0',
+            letterSpacing: '0.08em',
+            fontFamily: 'var(--font-title)',
+            boxShadow:
+              '0 10px 44px rgba(212,168,67,0.38), inset 0 0 26px rgba(244,215,138,0.14), 0 3px 20px rgba(0,0,0,0.6)',
+            textShadow: '0 2px 8px rgba(0,0,0,0.95), 0 0 16px rgba(244,215,138,0.55)',
+          }}
+        >
+          התחל לקרוא&nbsp;&nbsp;·&nbsp;&nbsp;{selectedBook.hebrew} {hn(selectedChapter)}
+        </button>
+
+        {/* Secondary — Perushim */}
+        <div style={{ marginTop: '16px' }}>
+          <button
+            onClick={onPerushim}
+            className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200"
+            style={{
+              fontFamily: 'var(--font-title)',
+              fontSize: '0.88rem',
+              letterSpacing: '0.18em',
               color: 'rgba(255,255,255,0.82)',
               textShadow: '0 2px 8px rgba(0,0,0,0.95)',
             }}
