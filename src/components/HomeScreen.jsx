@@ -196,13 +196,14 @@ export default function HomeScreen({ onStart, onPerushim }) {
       )}
 
       {/* Wallpaper arrows + eye toggle.
-          Desktop: bottom-right. Mobile: top-right so they don't steal space near the search bar. */}
+          Desktop: bottom-right. Mobile: just above the search bar, right-anchored, so they
+          don't collide with the title Aleph up top or with content. */}
       <div
         className="fixed z-50 flex items-center gap-1.5"
         style={{
-          top: isMobile ? '12px' : 'auto',
-          bottom: isMobile ? 'auto' : '24px',
-          right: isMobile ? '10px' : '24px',
+          top: 'auto',
+          bottom: isMobile ? '62px' : '24px',
+          right: isMobile ? '12px' : '24px',
         }}
       >
         {!uiHidden && (
@@ -391,7 +392,9 @@ export default function HomeScreen({ onStart, onPerushim }) {
         style={{
           maxWidth: isMobile ? '100%' : contentMaxWidth,
           paddingBottom: isMobile ? '0.25rem' : '2rem',
-          marginTop: isMobile ? '80px' : '180px',
+          // Mobile: push content down so it sits roughly centered between title
+          // and the search bar instead of crammed under the title.
+          marginTop: isMobile ? '200px' : '180px',
           zoom: isMobile ? 1 : 0.9,
           transition: 'max-width 0.45s cubic-bezier(0.22, 1, 0.36, 1)',
         }}
@@ -533,8 +536,8 @@ export default function HomeScreen({ onStart, onPerushim }) {
             style={{
               width: '100%',
               maxWidth: isMobile ? '96vw' : chapterGridMaxWidth,
-              maxHeight: isMobile ? '150px' : '260px',
-              padding: isMobile ? '6px 6px' : '20px 16px',
+              maxHeight: isMobile ? '200px' : '260px',
+              padding: isMobile ? '8px 6px' : '20px 16px',
               transition: 'max-width 0.45s cubic-bezier(0.22, 1, 0.36, 1)',
             }}
           >
@@ -584,7 +587,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
           onClick={handleStart}
           className="inline-flex items-center justify-center cursor-pointer transition-all duration-500 hover:brightness-110"
           style={{
-            marginTop: isMobile ? '2px' : '18px',
+            marginTop: isMobile ? '14px' : '18px',
             padding: isMobile ? '8px 24px' : '16px 56px',
             background: 'linear-gradient(180deg, rgba(212,168,67,0.5), rgba(140,100,35,0.72))',
             border: '1.5px solid rgba(244,215,138,0.88)',
@@ -602,7 +605,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
         </button>
 
         {/* Secondary — Perushim */}
-        <div style={{ marginTop: isMobile ? '10px' : '28px' }}>
+        <div style={{ marginTop: isMobile ? '16px' : '28px' }}>
           <button
             onClick={onPerushim}
             className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200"
@@ -626,7 +629,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
       <div
         className="fixed z-30"
         style={{
-          bottom: isMobile ? '12px' : '28px',
+          bottom: isMobile ? '14px' : '28px',
           left: '50%',
           transform: 'translateX(-50%)',
           width: isMobile ? '94vw' : 'min(92vw, 600px)',
