@@ -167,47 +167,39 @@ export default function HomeScreen({ onStart, onPerushim }) {
         ...(isMobile ? { paddingLeft: '8px', paddingRight: '8px' } : {}),
       }}
     >
-      {/* Settings gear — top-left, hidden when uiHidden */}
-      {!uiHidden && (
+      {/* Settings gear — top-left, hidden when uiHidden. Desktop = original; mobile = smaller & tighter. */}
+      {!uiHidden && !isMobile && (
       <button
         onClick={() => setShowSettings(!showSettings)}
-        className="fixed z-50 cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125 flex items-center justify-center"
-        style={{
-          width: isMobile ? '30px' : '40px',
-          height: isMobile ? '30px' : '40px',
-          top: isMobile ? '12px' : '24px',
-          left: isMobile ? '12px' : '24px',
-        }}
+        className="fixed top-6 left-6 z-50 cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125 flex items-center justify-center"
+        style={{ width: '40px', height: '40px' }}
         aria-label="הגדרות"
       >
         <img
           src="/icon-settings.png"
           alt=""
-          style={{
-            width: isMobile ? '30px' : '40px',
-            height: isMobile ? '30px' : '40px',
-            objectFit: 'contain',
-            pointerEvents: 'none',
-            transform: `scale(${isMobile ? 5.4 : 7.2}) translateX(1px)`,
-            transformOrigin: 'center',
-            filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.8))',
-          }}
+          style={{ width: '40px', height: '40px', objectFit: 'contain', pointerEvents: 'none', transform: 'scale(7.2) translateX(1px)', transformOrigin: 'center', filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.8))' }}
+        />
+      </button>
+      )}
+      {!uiHidden && isMobile && (
+      <button
+        onClick={() => setShowSettings(!showSettings)}
+        className="fixed z-50 cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125 flex items-center justify-center"
+        style={{ width: '30px', height: '30px', top: '12px', left: '12px' }}
+        aria-label="הגדרות"
+      >
+        <img
+          src="/icon-settings.png"
+          alt=""
+          style={{ width: '30px', height: '30px', objectFit: 'contain', pointerEvents: 'none', transform: 'scale(5.4) translateX(1px)', transformOrigin: 'center', filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.8))' }}
         />
       </button>
       )}
 
-      {/* Wallpaper arrows + eye toggle.
-          Desktop: bottom-right. Mobile: directly under the subtitle, centered horizontally. */}
-      <div
-        className="fixed z-50 flex items-center gap-1.5"
-        style={{
-          top: isMobile ? '92px' : 'auto',
-          bottom: isMobile ? 'auto' : '24px',
-          left: isMobile ? '50%' : 'auto',
-          right: isMobile ? 'auto' : '24px',
-          transform: isMobile ? 'translateX(-50%)' : 'none',
-        }}
-      >
+      {/* Wallpaper arrows + eye toggle — DESKTOP: bottom-right, original spec. */}
+      {!isMobile && (
+      <div className="fixed bottom-6 right-6 z-50 flex items-center gap-1.5">
         {!uiHidden && (
           <>
             <button
@@ -215,8 +207,8 @@ export default function HomeScreen({ onStart, onPerushim }) {
               aria-label="טפט קודם"
               className="flex items-center justify-center cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125"
               style={{
-                width: isMobile ? '28px' : '34px',
-                height: isMobile ? '28px' : '34px',
+                width: '34px',
+                height: '34px',
                 color: '#f4d78a',
                 background: 'linear-gradient(180deg, rgba(20,28,50,0.88), rgba(10,14,26,0.92))',
                 border: '1px solid rgba(244,215,138,0.45)',
@@ -234,8 +226,8 @@ export default function HomeScreen({ onStart, onPerushim }) {
               aria-label="טפט הבא"
               className="flex items-center justify-center cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125"
               style={{
-                width: isMobile ? '28px' : '34px',
-                height: isMobile ? '28px' : '34px',
+                width: '34px',
+                height: '34px',
                 color: '#f4d78a',
                 background: 'linear-gradient(180deg, rgba(20,28,50,0.88), rgba(10,14,26,0.92))',
                 border: '1px solid rgba(244,215,138,0.45)',
@@ -250,15 +242,14 @@ export default function HomeScreen({ onStart, onPerushim }) {
             </button>
           </>
         )}
-        {/* Eye toggle — always visible so user can restore UI */}
         <button
           onClick={() => setUiHidden((v) => !v)}
           aria-label={uiHidden ? 'הצג תפריט' : 'הסתר תפריט'}
           title={uiHidden ? 'הצג תפריט' : 'הסתר תפריט'}
           className="flex items-center justify-center cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125"
           style={{
-            width: isMobile ? '28px' : '34px',
-            height: isMobile ? '28px' : '34px',
+            width: '34px',
+            height: '34px',
             color: '#f4d78a',
             background: 'linear-gradient(180deg, rgba(20,28,50,0.88), rgba(10,14,26,0.92))',
             border: '1px solid rgba(244,215,138,0.45)',
@@ -267,7 +258,6 @@ export default function HomeScreen({ onStart, onPerushim }) {
           }}
         >
           {uiHidden ? (
-            // Eye-off — UI currently hidden; click to show
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
               fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a19.8 19.8 0 0 1 5.06-6.06" />
@@ -276,7 +266,6 @@ export default function HomeScreen({ onStart, onPerushim }) {
               <path d="M9.88 9.88a3 3 0 0 0 4.24 4.24" />
             </svg>
           ) : (
-            // Eye open — UI currently shown; click to hide
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
               fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
@@ -285,6 +274,88 @@ export default function HomeScreen({ onStart, onPerushim }) {
           )}
         </button>
       </div>
+      )}
+      {/* MOBILE: tucked under the subtitle, centered. */}
+      {isMobile && (
+      <div
+        className="fixed z-50 flex items-center gap-1.5"
+        style={{ top: '92px', left: '50%', transform: 'translateX(-50%)' }}
+      >
+        {!uiHidden && (
+          <>
+            <button
+              onClick={prevWallpaper}
+              aria-label="טפט קודם"
+              className="flex items-center justify-center cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125"
+              style={{
+                width: '28px',
+                height: '28px',
+                color: '#f4d78a',
+                background: 'linear-gradient(180deg, rgba(20,28,50,0.88), rgba(10,14,26,0.92))',
+                border: '1px solid rgba(244,215,138,0.45)',
+                borderRadius: '50%',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.6)',
+              }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            <button
+              onClick={nextWallpaper}
+              aria-label="טפט הבא"
+              className="flex items-center justify-center cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125"
+              style={{
+                width: '28px',
+                height: '28px',
+                color: '#f4d78a',
+                background: 'linear-gradient(180deg, rgba(20,28,50,0.88), rgba(10,14,26,0.92))',
+                border: '1px solid rgba(244,215,138,0.45)',
+                borderRadius: '50%',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.6)',
+              }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+          </>
+        )}
+        <button
+          onClick={() => setUiHidden((v) => !v)}
+          aria-label={uiHidden ? 'הצג תפריט' : 'הסתר תפריט'}
+          title={uiHidden ? 'הצג תפריט' : 'הסתר תפריט'}
+          className="flex items-center justify-center cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125"
+          style={{
+            width: '28px',
+            height: '28px',
+            color: '#f4d78a',
+            background: 'linear-gradient(180deg, rgba(20,28,50,0.88), rgba(10,14,26,0.92))',
+            border: '1px solid rgba(244,215,138,0.45)',
+            borderRadius: '50%',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.6)',
+          }}
+        >
+          {uiHidden ? (
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a19.8 19.8 0 0 1 5.06-6.06" />
+              <path d="M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a19.8 19.8 0 0 1-3.17 4.19" />
+              <path d="M1 1l22 22" />
+              <path d="M9.88 9.88a3 3 0 0 0 4.24 4.24" />
+            </svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          )}
+        </button>
+      </div>
+      )}
 
       {/* Home settings panel */}
       {showSettings && (
@@ -318,24 +389,22 @@ export default function HomeScreen({ onStart, onPerushim }) {
         </div>
       )}
 
-      {/* Title + artistic subtitle — pinned near top, centered (hidden in eye-off mode) */}
-      {!uiHidden && (
+      {/* Title + artistic subtitle — DESKTOP: original. */}
+      {!uiHidden && !isMobile && (
       <div
         className="fixed z-20 text-center"
         style={{
-          top: isMobile ? '14px' : '20px',
+          top: '20px',
           left: '50%',
           transform: 'translateX(-50%)',
-          width: isMobile ? '100%' : 'auto',
-          paddingInline: isMobile ? '12px' : 0,
         }}
       >
         <h1
           className="m-0 p-0 whitespace-nowrap"
           style={{
             fontFamily: 'var(--font-title)',
-            fontSize: isMobile ? 'clamp(2.4rem, 11vw, 3.4rem)' : 'clamp(5.9rem, 15.7vw, 8.8rem)',
-            letterSpacing: isMobile ? '0.08em' : '0.16em',
+            fontSize: 'clamp(5.9rem, 15.7vw, 8.8rem)',
+            letterSpacing: '0.16em',
             fontWeight: 500,
             lineHeight: 1,
             background: 'linear-gradient(180deg, #f8dfa0 0%, #e6bd5a 55%, #b8902f 100%)',
@@ -350,14 +419,11 @@ export default function HomeScreen({ onStart, onPerushim }) {
         </h1>
 
         {/* Artistic subtitle — stretched with long flanking gold lines */}
-        <div
-          className="flex items-center justify-center"
-          style={{ gap: isMobile ? '10px' : '20px', marginTop: isMobile ? '12px' : '24px' }}
-        >
+        <div className="flex items-center justify-center gap-5 mt-6">
           <div
             style={{
               height: '1px',
-              width: isMobile ? 'clamp(20px, 7vw, 50px)' : 'clamp(80px, 18vw, 220px)',
+              width: 'clamp(80px, 18vw, 220px)',
               background: 'linear-gradient(90deg, transparent, rgba(212,168,67,0.75))',
               boxShadow: '0 0 6px rgba(212,168,67,0.3)',
             }}
@@ -367,8 +433,8 @@ export default function HomeScreen({ onStart, onPerushim }) {
             dir="rtl"
             style={{
               fontFamily: 'var(--font-title)',
-              fontSize: isMobile ? 'clamp(0.72rem, 3vw, 0.95rem)' : 'clamp(1.3rem, 2.5vw, 1.75rem)',
-              letterSpacing: isMobile ? '0.16em' : '0.32em',
+              fontSize: 'clamp(1.3rem, 2.5vw, 1.75rem)',
+              letterSpacing: '0.32em',
               fontWeight: 300,
               color: '#f4d78a',
               textShadow: '0 2px 6px rgba(0,0,0,0.85), 0 0 18px rgba(212,168,67,0.45)',
@@ -379,7 +445,76 @@ export default function HomeScreen({ onStart, onPerushim }) {
           <div
             style={{
               height: '1px',
-              width: isMobile ? 'clamp(20px, 7vw, 50px)' : 'clamp(80px, 18vw, 220px)',
+              width: 'clamp(80px, 18vw, 220px)',
+              background: 'linear-gradient(90deg, rgba(212,168,67,0.75), transparent)',
+              boxShadow: '0 0 6px rgba(212,168,67,0.3)',
+            }}
+          />
+        </div>
+      </div>
+      )}
+
+      {/* Title + artistic subtitle — MOBILE: smaller, tighter. */}
+      {!uiHidden && isMobile && (
+      <div
+        className="fixed z-20 text-center"
+        style={{
+          top: '14px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '100%',
+          paddingInline: '12px',
+        }}
+      >
+        <h1
+          className="m-0 p-0 whitespace-nowrap"
+          style={{
+            fontFamily: 'var(--font-title)',
+            fontSize: 'clamp(2.4rem, 11vw, 3.4rem)',
+            letterSpacing: '0.08em',
+            fontWeight: 500,
+            lineHeight: 1,
+            background: 'linear-gradient(180deg, #f8dfa0 0%, #e6bd5a 55%, #b8902f 100%)',
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            color: 'transparent',
+            filter: 'drop-shadow(0 3px 12px rgba(0,0,0,0.85))',
+          }}
+        >
+          אוצר התורה
+        </h1>
+
+        <div
+          className="flex items-center justify-center"
+          style={{ gap: '10px', marginTop: '12px' }}
+        >
+          <div
+            style={{
+              height: '1px',
+              width: 'clamp(20px, 7vw, 50px)',
+              background: 'linear-gradient(90deg, transparent, rgba(212,168,67,0.75))',
+              boxShadow: '0 0 6px rgba(212,168,67,0.3)',
+            }}
+          />
+          <p
+            className="whitespace-nowrap m-0 p-0"
+            dir="rtl"
+            style={{
+              fontFamily: 'var(--font-title)',
+              fontSize: 'clamp(0.72rem, 3vw, 0.95rem)',
+              letterSpacing: '0.16em',
+              fontWeight: 300,
+              color: '#f4d78a',
+              textShadow: '0 2px 6px rgba(0,0,0,0.85), 0 0 18px rgba(212,168,67,0.45)',
+            }}
+          >
+            כל התנ״ך, חי ונושם, לפניך
+          </p>
+          <div
+            style={{
+              height: '1px',
+              width: 'clamp(20px, 7vw, 50px)',
               background: 'linear-gradient(90deg, rgba(212,168,67,0.75), transparent)',
               boxShadow: '0 0 6px rgba(212,168,67,0.3)',
             }}
