@@ -33,6 +33,14 @@ export default function HomeScreen({ onStart, onPerushim }) {
   // UI-hidden mode — click the eye to show ONLY the wallpaper (everything else hidden except the eye itself)
   const [uiHidden, setUiHidden] = useState(false);
 
+  // Mobile detection — everything on this screen collapses at ≤640px
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 640);
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth <= 640);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
   const [searchPlaceholders] = useState(() => {
     const torahBooks = sections.find((s) => s.english === 'Torah').books;
     const pickRandom = (bookList) => {
@@ -142,7 +150,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
 
   return (
     <div
-      className={`min-h-screen flex flex-col items-center justify-center px-6 ${exiting ? 'splash-exit' : 'splash-enter'}`}
+      className={`min-h-screen flex flex-col items-center ${isMobile ? 'justify-start' : 'justify-center'} ${exiting ? 'splash-exit' : 'splash-enter'}`}
       style={{
         backgroundImage: `url(${WALLPAPERS[wallpaperIdx]})`,
         backgroundSize: 'cover',
@@ -152,20 +160,35 @@ export default function HomeScreen({ onStart, onPerushim }) {
         transition: 'background-image 0.6s ease',
         height: '100vh',
         overflow: 'hidden',
+        paddingLeft: isMobile ? '8px' : '24px',
+        paddingRight: isMobile ? '8px' : '24px',
       }}
     >
       {/* Settings gear — top-left, hidden when uiHidden */}
       {!uiHidden && (
       <button
         onClick={() => setShowSettings(!showSettings)}
-        className="fixed top-6 left-6 z-50 cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125 flex items-center justify-center"
-        style={{ width: '40px', height: '40px' }}
+        className="fixed z-50 cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125 flex items-center justify-center"
+        style={{
+          width: isMobile ? '30px' : '40px',
+          height: isMobile ? '30px' : '40px',
+          top: isMobile ? '12px' : '24px',
+          left: isMobile ? '12px' : '24px',
+        }}
         aria-label="הגדרות"
       >
         <img
           src="/icon-settings.png"
           alt=""
-          style={{ width: '40px', height: '40px', objectFit: 'contain', pointerEvents: 'none', transform: 'scale(7.2) translateX(1px)', transformOrigin: 'center', filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.8))' }}
+          style={{
+            width: isMobile ? '30px' : '40px',
+            height: isMobile ? '30px' : '40px',
+            objectFit: 'contain',
+            pointerEvents: 'none',
+            transform: `scale(${isMobile ? 5.4 : 7.2}) translateX(1px)`,
+            transformOrigin: 'center',
+            filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.8))',
+          }}
         />
       </button>
       )}
@@ -287,17 +310,19 @@ export default function HomeScreen({ onStart, onPerushim }) {
       <div
         className="fixed z-20 text-center"
         style={{
-          top: '20px',
+          top: isMobile ? '14px' : '20px',
           left: '50%',
           transform: 'translateX(-50%)',
+          width: isMobile ? '100%' : 'auto',
+          paddingInline: isMobile ? '12px' : 0,
         }}
       >
         <h1
           className="m-0 p-0 whitespace-nowrap"
           style={{
             fontFamily: 'var(--font-title)',
-            fontSize: 'clamp(5.9rem, 15.7vw, 8.8rem)',
-            letterSpacing: '0.16em',
+            fontSize: isMobile ? 'clamp(2.4rem, 11vw, 3.4rem)' : 'clamp(5.9rem, 15.7vw, 8.8rem)',
+            letterSpacing: isMobile ? '0.08em' : '0.16em',
             fontWeight: 500,
             lineHeight: 1,
             background: 'linear-gradient(180deg, #f8dfa0 0%, #e6bd5a 55%, #b8902f 100%)',
@@ -312,11 +337,14 @@ export default function HomeScreen({ onStart, onPerushim }) {
         </h1>
 
         {/* Artistic subtitle — stretched with long flanking gold lines */}
-        <div className="flex items-center justify-center gap-5 mt-6">
+        <div
+          className="flex items-center justify-center"
+          style={{ gap: isMobile ? '10px' : '20px', marginTop: isMobile ? '12px' : '24px' }}
+        >
           <div
             style={{
               height: '1px',
-              width: 'clamp(80px, 18vw, 220px)',
+              width: isMobile ? 'clamp(20px, 7vw, 50px)' : 'clamp(80px, 18vw, 220px)',
               background: 'linear-gradient(90deg, transparent, rgba(212,168,67,0.75))',
               boxShadow: '0 0 6px rgba(212,168,67,0.3)',
             }}
@@ -326,8 +354,8 @@ export default function HomeScreen({ onStart, onPerushim }) {
             dir="rtl"
             style={{
               fontFamily: 'var(--font-title)',
-              fontSize: 'clamp(1.3rem, 2.5vw, 1.75rem)',
-              letterSpacing: '0.32em',
+              fontSize: isMobile ? 'clamp(0.72rem, 3vw, 0.95rem)' : 'clamp(1.3rem, 2.5vw, 1.75rem)',
+              letterSpacing: isMobile ? '0.16em' : '0.32em',
               fontWeight: 300,
               color: '#f4d78a',
               textShadow: '0 2px 6px rgba(0,0,0,0.85), 0 0 18px rgba(212,168,67,0.45)',
@@ -338,7 +366,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
           <div
             style={{
               height: '1px',
-              width: 'clamp(80px, 18vw, 220px)',
+              width: isMobile ? 'clamp(20px, 7vw, 50px)' : 'clamp(80px, 18vw, 220px)',
               background: 'linear-gradient(90deg, rgba(212,168,67,0.75), transparent)',
               boxShadow: '0 0 6px rgba(212,168,67,0.3)',
             }}
@@ -351,16 +379,20 @@ export default function HomeScreen({ onStart, onPerushim }) {
       <div
         className="relative z-10 w-full text-center"
         style={{
-          maxWidth: contentMaxWidth,
-          paddingBottom: '2rem',
-          marginTop: '180px',
-          zoom: 0.9,
+          maxWidth: isMobile ? '100%' : contentMaxWidth,
+          paddingBottom: isMobile ? '1rem' : '2rem',
+          marginTop: isMobile ? '100px' : '180px',
+          zoom: isMobile ? 1 : 0.9,
           transition: 'max-width 0.45s cubic-bezier(0.22, 1, 0.36, 1)',
         }}
       >
         <div className="relative">
         {/* Section tabs — glass nav */}
-        <div className="mb-8 flex justify-center gap-11" dir="rtl">
+        <div
+          className="flex justify-center"
+          style={{ gap: isMobile ? '18px' : '44px', marginBottom: isMobile ? '18px' : '32px' }}
+          dir="rtl"
+        >
           {sections.map((section) => {
             const isActive = activeSection === section.english;
             return (
@@ -370,8 +402,8 @@ export default function HomeScreen({ onStart, onPerushim }) {
                 className="relative cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 pb-2"
                 style={{
                   fontFamily: 'var(--font-title)',
-                  fontSize: '1.15rem',
-                  letterSpacing: '0.22em',
+                  fontSize: isMobile ? '0.82rem' : '1.15rem',
+                  letterSpacing: isMobile ? '0.1em' : '0.22em',
                   color: isActive ? '#f4d78a' : 'rgba(255,255,255,0.88)',
                   textShadow: isActive
                     ? '0 2px 8px rgba(0,0,0,0.95), 0 0 20px rgba(212,168,67,0.75)'
@@ -395,9 +427,17 @@ export default function HomeScreen({ onStart, onPerushim }) {
         </div>
 
         {/* Book boxes — split into balanced rows (top has one more when odd) */}
-        <div className="mb-10 flex flex-col gap-2.5" dir="rtl">
+        <div
+          className="flex flex-col"
+          style={{ gap: isMobile ? '6px' : '10px', marginBottom: isMobile ? '22px' : '40px' }}
+          dir="rtl"
+        >
           {bookRows.map((row, rowIdx) => (
-            <div key={rowIdx} className="flex gap-2.5 justify-center">
+            <div
+              key={rowIdx}
+              className="flex justify-center flex-wrap"
+              style={{ gap: isMobile ? '6px' : '10px' }}
+            >
               {row.map((book) => {
                 const isActive = selectedBook.english === book.english;
                 return (
@@ -406,10 +446,10 @@ export default function HomeScreen({ onStart, onPerushim }) {
                     onClick={() => handleBookChange(book)}
                     className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200"
                     style={{
-                      minWidth: '110px',
-                      padding: '10px 20px',
-                      borderRadius: '10px',
-                      fontSize: '1.2rem',
+                      minWidth: isMobile ? '56px' : '110px',
+                      padding: isMobile ? '6px 10px' : '10px 20px',
+                      borderRadius: isMobile ? '8px' : '10px',
+                      fontSize: isMobile ? '0.92rem' : '1.2rem',
                       fontFamily: 'var(--font-title)',
                       letterSpacing: '0.02em',
                       color: isActive ? '#f4d78a' : 'rgba(255,255,255,0.92)',
@@ -436,20 +476,28 @@ export default function HomeScreen({ onStart, onPerushim }) {
         </div>
 
         {/* "בחר פרק" ornamental header */}
-        <div className="flex items-center justify-center gap-6 mt-3 mb-7" dir="rtl">
+        <div
+          className="flex items-center justify-center"
+          style={{
+            gap: isMobile ? '14px' : '24px',
+            marginTop: isMobile ? '4px' : '12px',
+            marginBottom: isMobile ? '14px' : '28px',
+          }}
+          dir="rtl"
+        >
           <div style={{
             height: '1px',
             flex: 1,
-            maxWidth: '150px',
+            maxWidth: isMobile ? '60px' : '150px',
             background: 'linear-gradient(90deg, transparent, rgba(244,215,138,0.8))',
             boxShadow: '0 0 6px rgba(212,168,67,0.4)',
           }} />
           <span
             style={{
               fontFamily: 'var(--font-title)',
-              fontSize: '1rem',
+              fontSize: isMobile ? '0.8rem' : '1rem',
               color: '#f4d78a',
-              letterSpacing: '0.4em',
+              letterSpacing: isMobile ? '0.24em' : '0.4em',
               textShadow: '0 2px 8px rgba(0,0,0,0.95), 0 0 14px rgba(244,215,138,0.6)',
             }}
           >
@@ -458,26 +506,34 @@ export default function HomeScreen({ onStart, onPerushim }) {
           <div style={{
             height: '1px',
             flex: 1,
-            maxWidth: '150px',
+            maxWidth: isMobile ? '60px' : '150px',
             background: 'linear-gradient(90deg, rgba(244,215,138,0.8), transparent)',
             boxShadow: '0 0 6px rgba(212,168,67,0.4)',
           }} />
         </div>
 
         {/* Chapter grid — breathes with chapter count (wider for Psalms-scale books) */}
-        <div className="mb-11 flex justify-center">
+        <div
+          className="flex justify-center"
+          style={{ marginBottom: isMobile ? '20px' : '44px' }}
+        >
           <div
             dir="rtl"
-            className="max-h-[260px] overflow-y-auto overflow-x-hidden py-5 px-4"
+            className="overflow-y-auto overflow-x-hidden"
             style={{
               width: '100%',
-              maxWidth: chapterGridMaxWidth,
+              maxWidth: isMobile ? '96vw' : chapterGridMaxWidth,
+              maxHeight: isMobile ? '180px' : '260px',
+              padding: isMobile ? '8px 8px' : '20px 16px',
               transition: 'max-width 0.45s cubic-bezier(0.22, 1, 0.36, 1)',
             }}
           >
             <div
-              className="grid gap-2 justify-items-center"
-              style={{ gridTemplateColumns: `repeat(${chapterCols}, minmax(0, 1fr))` }}
+              className="grid justify-items-center"
+              style={{
+                gap: isMobile ? '5px' : '8px',
+                gridTemplateColumns: `repeat(${isMobile ? Math.min(chapterCols, chapterCount <= 12 ? 6 : chapterCount <= 30 ? 7 : chapterCount <= 80 ? 8 : 8) : chapterCols}, minmax(0, 1fr))`,
+              }}
             >
               {chapters.map((num) => {
                 const isActive = selectedChapter === num;
@@ -487,10 +543,10 @@ export default function HomeScreen({ onStart, onPerushim }) {
                     onClick={() => setSelectedChapter(num)}
                     className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 flex items-center justify-center"
                     style={{
-                      width: '44px',
-                      height: '44px',
-                      borderRadius: '8px',
-                      fontSize: '1rem',
+                      width: isMobile ? '36px' : '44px',
+                      height: isMobile ? '36px' : '44px',
+                      borderRadius: isMobile ? '6px' : '8px',
+                      fontSize: isMobile ? '0.85rem' : '1rem',
                       fontFamily: 'var(--font-ui)',
                       color: isActive ? '#f4d78a' : 'rgba(255,255,255,0.92)',
                       background: isActive
@@ -516,13 +572,14 @@ export default function HomeScreen({ onStart, onPerushim }) {
         {/* Primary CTA — glass gold */}
         <button
           onClick={handleStart}
-          className="inline-flex items-center justify-center rounded-xl cursor-pointer transition-all duration-500 hover:brightness-110"
+          className="inline-flex items-center justify-center cursor-pointer transition-all duration-500 hover:brightness-110"
           style={{
-            marginTop: '18px',
-            padding: '16px 56px',
+            marginTop: isMobile ? '6px' : '18px',
+            padding: isMobile ? '10px 28px' : '16px 56px',
             background: 'linear-gradient(180deg, rgba(212,168,67,0.5), rgba(140,100,35,0.72))',
             border: '1.5px solid rgba(244,215,138,0.88)',
-            fontSize: '1.38rem',
+            borderRadius: isMobile ? '10px' : '12px',
+            fontSize: isMobile ? '0.98rem' : '1.38rem',
             color: '#f8dfa0',
             letterSpacing: '0.08em',
             fontFamily: 'var(--font-title)',
@@ -535,14 +592,14 @@ export default function HomeScreen({ onStart, onPerushim }) {
         </button>
 
         {/* Secondary — Perushim */}
-        <div className="mt-7">
+        <div style={{ marginTop: isMobile ? '18px' : '28px' }}>
           <button
             onClick={onPerushim}
             className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200"
             style={{
               fontFamily: 'var(--font-title)',
-              fontSize: '1.06rem',
-              letterSpacing: '0.28em',
+              fontSize: isMobile ? '0.88rem' : '1.06rem',
+              letterSpacing: isMobile ? '0.18em' : '0.28em',
               color: 'rgba(255,255,255,0.82)',
               textShadow: '0 2px 8px rgba(0,0,0,0.95)',
             }}
