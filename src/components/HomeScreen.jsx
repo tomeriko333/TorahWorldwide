@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import torahStructure from '../data/torahStructure.json';
 import { getLastPosition, getSettings, saveSettings } from '../utils/storage';
 import { toHebrewNumeral } from '../utils/hebrewNumerals';
@@ -40,6 +40,35 @@ export default function HomeScreen({ onStart, onPerushim }) {
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
+
+  // Desktop chapter grid: custom scroll arrows (scrollbar hidden via CSS).
+  // canScrollUp/Down drive visibility/opacity of the up & down buttons.
+  const chapterScrollRef = useRef(null);
+  const [canScrollUp, setCanScrollUp] = useState(false);
+  const [canScrollDown, setCanScrollDown] = useState(false);
+  useEffect(() => {
+    const el = chapterScrollRef.current;
+    if (!el) { setCanScrollUp(false); setCanScrollDown(false); return; }
+    const update = () => {
+      setCanScrollUp(el.scrollTop > 2);
+      setCanScrollDown(el.scrollTop + el.clientHeight < el.scrollHeight - 2);
+    };
+    update();
+    el.addEventListener('scroll', update, { passive: true });
+    // Re-measure on resize (e.g., window resize shifting grid columns).
+    const onResize = () => update();
+    window.addEventListener('resize', onResize);
+    return () => {
+      el.removeEventListener('scroll', update);
+      window.removeEventListener('resize', onResize);
+    };
+  }, [selectedBook, isMobile]);
+  const scrollChapters = (direction) => {
+    const el = chapterScrollRef.current;
+    if (!el) return;
+    // Scroll by about 3 rows (row ~52px incl. gap).
+    el.scrollBy({ top: direction * 156, behavior: 'smooth' });
+  };
 
   const [searchPlaceholders] = useState(() => {
     const torahBooks = sections.find((s) => s.english === 'Torah').books;
@@ -100,7 +129,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
     const base = Math.round(desiredBookRowWidth * 0.85);
     if (chapterCount <= 20) return Math.min(base, 560);
     if (chapterCount <= 60) return Math.min(base, 900);
-    return Math.min(base, 1100);
+    return Math.min(base, 1200);
   })();
   const chapterGridMaxWidth = `min(${chapterGridMaxPx}px, 85vw)`;
   // More columns on longer books keeps the grid from becoming too tall.
@@ -641,11 +670,12 @@ export default function HomeScreen({ onStart, onPerushim }) {
           }} />
         </div>
 
-        {/* Chapter grid — breathes with chapter count (wider for Psalms-scale books) */}
+        {/* Chapter grid — breathes with chapter count (wider for Psalms-scale books).
+            Native scrollbar is hidden; when content overflows, custom gold up/down
+            chevron buttons appear on the left so the user has a clear affordance. */}
         <div className="mb-11 flex justify-center">
           <div
-            dir="rtl"
-            className="max-h-[260px] overflow-y-auto overflow-x-hidden py-5 px-4"
+            className="relative"
             style={{
               width: '100%',
               maxWidth: chapterGridMaxWidth,
@@ -653,40 +683,94 @@ export default function HomeScreen({ onStart, onPerushim }) {
             }}
           >
             <div
-              className="grid gap-2 justify-items-center"
-              style={{ gridTemplateColumns: `repeat(${chapterCols}, minmax(0, 1fr))` }}
+              ref={chapterScrollRef}
+              dir="rtl"
+              className="max-h-[260px] overflow-y-auto overflow-x-hidden hide-scrollbar py-5 px-6"
             >
-              {chapters.map((num) => {
-                const isActive = selectedChapter === num;
-                return (
-                  <button
-                    key={num}
-                    onClick={() => setSelectedChapter(num)}
-                    className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 flex items-center justify-center"
-                    style={{
-                      width: '44px',
-                      height: '44px',
-                      borderRadius: '8px',
-                      fontSize: '1rem',
-                      fontFamily: 'var(--font-ui)',
-                      color: isActive ? '#f4d78a' : 'rgba(255,255,255,0.92)',
-                      background: isActive
-                        ? 'radial-gradient(circle, rgba(244,215,138,0.32), rgba(212,168,67,0.06))'
-                        : 'rgba(255,255,255,0.05)',
-                      border: isActive
-                        ? '1.5px solid rgba(244,215,138,0.9)'
-                        : '1px solid rgba(255,255,255,0.16)',
-                      textShadow: isActive
-                        ? '0 1px 4px rgba(0,0,0,0.95), 0 0 12px rgba(244,215,138,0.75)'
-                        : '0 1px 4px rgba(0,0,0,0.9)',
-                      animation: isActive ? 'chapter-pulse 2.4s ease-in-out infinite' : 'none',
-                    }}
-                  >
-                    {hn(num)}
-                  </button>
-                );
-              })}
+              <div
+                className="grid gap-2 justify-items-center"
+                style={{ gridTemplateColumns: `repeat(${chapterCols}, minmax(0, 1fr))` }}
+              >
+                {chapters.map((num) => {
+                  const isActive = selectedChapter === num;
+                  return (
+                    <button
+                      key={num}
+                      onClick={() => setSelectedChapter(num)}
+                      className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 flex items-center justify-center"
+                      style={{
+                        width: '44px',
+                        height: '44px',
+                        borderRadius: '8px',
+                        fontSize: '1rem',
+                        fontFamily: 'var(--font-ui)',
+                        color: isActive ? '#f4d78a' : 'rgba(255,255,255,0.92)',
+                        background: isActive
+                          ? 'radial-gradient(circle, rgba(244,215,138,0.32), rgba(212,168,67,0.06))'
+                          : 'rgba(255,255,255,0.05)',
+                        border: isActive
+                          ? '1.5px solid rgba(244,215,138,0.9)'
+                          : '1px solid rgba(255,255,255,0.16)',
+                        textShadow: isActive
+                          ? '0 1px 4px rgba(0,0,0,0.95), 0 0 12px rgba(244,215,138,0.75)'
+                          : '0 1px 4px rgba(0,0,0,0.9)',
+                        animation: isActive ? 'chapter-pulse 2.4s ease-in-out infinite' : 'none',
+                      }}
+                    >
+                      {hn(num)}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
+
+            {/* Scroll arrows — only rendered when the grid actually overflows. */}
+            {(canScrollUp || canScrollDown) && (
+              <>
+                <button
+                  onClick={() => scrollChapters(-1)}
+                  disabled={!canScrollUp}
+                  aria-label="גלול למעלה"
+                  className="absolute left-0 top-2 flex items-center justify-center rounded-full border transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 cursor-pointer hover:bg-gold/15"
+                  style={{
+                    width: '28px',
+                    height: '28px',
+                    color: '#f4d78a',
+                    background: 'linear-gradient(180deg, rgba(20,28,50,0.82), rgba(10,14,26,0.9))',
+                    borderColor: 'rgba(244,215,138,0.4)',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.55)',
+                    opacity: canScrollUp ? 1 : 0.35,
+                    pointerEvents: canScrollUp ? 'auto' : 'none',
+                  }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="18 15 12 9 6 15" />
+                  </svg>
+                </button>
+                <button
+                  onClick={() => scrollChapters(1)}
+                  disabled={!canScrollDown}
+                  aria-label="גלול למטה"
+                  className="absolute left-0 bottom-2 flex items-center justify-center rounded-full border transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 cursor-pointer hover:bg-gold/15"
+                  style={{
+                    width: '28px',
+                    height: '28px',
+                    color: '#f4d78a',
+                    background: 'linear-gradient(180deg, rgba(20,28,50,0.82), rgba(10,14,26,0.9))',
+                    borderColor: 'rgba(244,215,138,0.4)',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.55)',
+                    opacity: canScrollDown ? 1 : 0.35,
+                    pointerEvents: canScrollDown ? 'auto' : 'none',
+                  }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </button>
+              </>
+            )}
           </div>
         </div>
 

@@ -12,6 +12,11 @@
   color: #fff;
 }
 
+/* Hide native scrollbar while keeping scroll functionality.
+   Used on the HomeScreen chapter grid so we can show custom arrow buttons instead. */
+.hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.hide-scrollbar::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
 @font-face {
   font-family: 'StamSefarad';
   src: url('/StamSefaradCLM.ttf') format('truetype');
