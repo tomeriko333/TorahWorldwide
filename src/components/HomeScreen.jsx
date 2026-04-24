@@ -133,11 +133,12 @@ export default function HomeScreen({ onStart, onPerushim }) {
   })();
   const chapterGridMaxWidth = `min(${chapterGridMaxPx}px, 85vw)`;
   // More columns on longer books keeps the grid from becoming too tall.
+  // Capped at 12 even for Psalms-scale books so each tile has breathing room
+  // inside the content block's width constraint (avoids edges being clipped).
   const chapterCols =
     chapterCount <= 12 ? 6
     : chapterCount <= 30 ? 10
-    : chapterCount <= 80 ? 12
-    : 15;
+    : 12;
 
   const updateSettings = (newSettings) => {
     setSettings(newSettings);
