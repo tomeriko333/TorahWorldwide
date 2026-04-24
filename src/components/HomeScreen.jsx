@@ -150,7 +150,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
 
   return (
     <div
-      className={`min-h-screen flex flex-col items-center ${isMobile ? 'justify-start' : 'justify-center'} ${exiting ? 'splash-exit' : 'splash-enter'}`}
+      className={`flex flex-col items-center ${isMobile ? 'justify-start' : 'justify-center'} ${exiting ? 'splash-exit' : 'splash-enter'}`}
       style={{
         backgroundImage: `url(${WALLPAPERS[wallpaperIdx]})`,
         backgroundSize: 'cover',
@@ -158,7 +158,9 @@ export default function HomeScreen({ onStart, onPerushim }) {
         backgroundRepeat: 'no-repeat',
         backgroundColor: '#050508',
         transition: 'background-image 0.6s ease',
-        height: '100vh',
+        // 100dvh = current visible area on mobile (100vh otherwise includes
+        // the iOS URL bar area, which pushes content below the fold).
+        height: '100dvh',
         overflow: 'hidden',
         paddingLeft: isMobile ? '8px' : '24px',
         paddingRight: isMobile ? '8px' : '24px',
@@ -193,8 +195,16 @@ export default function HomeScreen({ onStart, onPerushim }) {
       </button>
       )}
 
-      {/* Bottom-right control cluster: wallpaper arrows (hidden when UI hidden) + eye toggle (always visible) */}
-      <div className="fixed bottom-6 right-6 z-50 flex items-center gap-1.5">
+      {/* Wallpaper arrows + eye toggle.
+          Desktop: bottom-right. Mobile: top-right so they don't steal space near the search bar. */}
+      <div
+        className="fixed z-50 flex items-center gap-1.5"
+        style={{
+          top: isMobile ? '12px' : 'auto',
+          bottom: isMobile ? 'auto' : '24px',
+          right: isMobile ? '10px' : '24px',
+        }}
+      >
         {!uiHidden && (
           <>
             <button
@@ -202,8 +212,8 @@ export default function HomeScreen({ onStart, onPerushim }) {
               aria-label="טפט קודם"
               className="flex items-center justify-center cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125"
               style={{
-                width: '34px',
-                height: '34px',
+                width: isMobile ? '28px' : '34px',
+                height: isMobile ? '28px' : '34px',
                 color: '#f4d78a',
                 background: 'linear-gradient(180deg, rgba(20,28,50,0.88), rgba(10,14,26,0.92))',
                 border: '1px solid rgba(244,215,138,0.45)',
@@ -221,8 +231,8 @@ export default function HomeScreen({ onStart, onPerushim }) {
               aria-label="טפט הבא"
               className="flex items-center justify-center cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125"
               style={{
-                width: '34px',
-                height: '34px',
+                width: isMobile ? '28px' : '34px',
+                height: isMobile ? '28px' : '34px',
                 color: '#f4d78a',
                 background: 'linear-gradient(180deg, rgba(20,28,50,0.88), rgba(10,14,26,0.92))',
                 border: '1px solid rgba(244,215,138,0.45)',
@@ -244,8 +254,8 @@ export default function HomeScreen({ onStart, onPerushim }) {
           title={uiHidden ? 'הצג תפריט' : 'הסתר תפריט'}
           className="flex items-center justify-center cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 hover:brightness-125"
           style={{
-            width: '34px',
-            height: '34px',
+            width: isMobile ? '28px' : '34px',
+            height: isMobile ? '28px' : '34px',
             color: '#f4d78a',
             background: 'linear-gradient(180deg, rgba(20,28,50,0.88), rgba(10,14,26,0.92))',
             border: '1px solid rgba(244,215,138,0.45)',
@@ -380,8 +390,8 @@ export default function HomeScreen({ onStart, onPerushim }) {
         className="relative z-10 w-full text-center"
         style={{
           maxWidth: isMobile ? '100%' : contentMaxWidth,
-          paddingBottom: isMobile ? '1rem' : '2rem',
-          marginTop: isMobile ? '100px' : '180px',
+          paddingBottom: isMobile ? '0.25rem' : '2rem',
+          marginTop: isMobile ? '80px' : '180px',
           zoom: isMobile ? 1 : 0.9,
           transition: 'max-width 0.45s cubic-bezier(0.22, 1, 0.36, 1)',
         }}
@@ -390,7 +400,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
         {/* Section tabs — glass nav */}
         <div
           className="flex justify-center"
-          style={{ gap: isMobile ? '18px' : '44px', marginBottom: isMobile ? '18px' : '32px' }}
+          style={{ gap: isMobile ? '18px' : '44px', marginBottom: isMobile ? '12px' : '32px' }}
           dir="rtl"
         >
           {sections.map((section) => {
@@ -429,7 +439,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
         {/* Book boxes — split into balanced rows (top has one more when odd) */}
         <div
           className="flex flex-col"
-          style={{ gap: isMobile ? '6px' : '10px', marginBottom: isMobile ? '22px' : '40px' }}
+          style={{ gap: isMobile ? '6px' : '10px', marginBottom: isMobile ? '14px' : '40px' }}
           dir="rtl"
         >
           {bookRows.map((row, rowIdx) => (
@@ -480,8 +490,8 @@ export default function HomeScreen({ onStart, onPerushim }) {
           className="flex items-center justify-center"
           style={{
             gap: isMobile ? '14px' : '24px',
-            marginTop: isMobile ? '4px' : '12px',
-            marginBottom: isMobile ? '14px' : '28px',
+            marginTop: isMobile ? '0' : '12px',
+            marginBottom: isMobile ? '8px' : '28px',
           }}
           dir="rtl"
         >
@@ -515,7 +525,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
         {/* Chapter grid — breathes with chapter count (wider for Psalms-scale books) */}
         <div
           className="flex justify-center"
-          style={{ marginBottom: isMobile ? '20px' : '44px' }}
+          style={{ marginBottom: isMobile ? '10px' : '44px' }}
         >
           <div
             dir="rtl"
@@ -523,8 +533,8 @@ export default function HomeScreen({ onStart, onPerushim }) {
             style={{
               width: '100%',
               maxWidth: isMobile ? '96vw' : chapterGridMaxWidth,
-              maxHeight: isMobile ? '180px' : '260px',
-              padding: isMobile ? '8px 8px' : '20px 16px',
+              maxHeight: isMobile ? '150px' : '260px',
+              padding: isMobile ? '6px 6px' : '20px 16px',
               transition: 'max-width 0.45s cubic-bezier(0.22, 1, 0.36, 1)',
             }}
           >
@@ -574,8 +584,8 @@ export default function HomeScreen({ onStart, onPerushim }) {
           onClick={handleStart}
           className="inline-flex items-center justify-center cursor-pointer transition-all duration-500 hover:brightness-110"
           style={{
-            marginTop: isMobile ? '6px' : '18px',
-            padding: isMobile ? '10px 28px' : '16px 56px',
+            marginTop: isMobile ? '2px' : '18px',
+            padding: isMobile ? '8px 24px' : '16px 56px',
             background: 'linear-gradient(180deg, rgba(212,168,67,0.5), rgba(140,100,35,0.72))',
             border: '1.5px solid rgba(244,215,138,0.88)',
             borderRadius: isMobile ? '10px' : '12px',
@@ -592,7 +602,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
         </button>
 
         {/* Secondary — Perushim */}
-        <div style={{ marginTop: isMobile ? '18px' : '28px' }}>
+        <div style={{ marginTop: isMobile ? '10px' : '28px' }}>
           <button
             onClick={onPerushim}
             className="cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200"
@@ -616,10 +626,10 @@ export default function HomeScreen({ onStart, onPerushim }) {
       <div
         className="fixed z-30"
         style={{
-          bottom: '28px',
+          bottom: isMobile ? '12px' : '28px',
           left: '50%',
           transform: 'translateX(-50%)',
-          width: 'min(92vw, 600px)',
+          width: isMobile ? '94vw' : 'min(92vw, 600px)',
         }}
       >
         {/* Quick suggestions — pop UP above the bar when focused + empty */}
@@ -649,7 +659,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
         )}
 
         {/* Search bar wrapper — dice on physical left, bar in middle, arrow on physical right */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center" style={{ gap: isMobile ? '6px' : '12px' }}>
           {/* Dice button — roll a random chapter */}
           <button
             onClick={handleRandom}
@@ -659,8 +669,8 @@ export default function HomeScreen({ onStart, onPerushim }) {
             title="פרק אקראי"
             className="flex items-center justify-center text-gold cursor-pointer"
             style={{
-              width: '44px',
-              height: '44px',
+              width: isMobile ? '34px' : '44px',
+              height: isMobile ? '34px' : '44px',
               background: 'transparent',
               border: 'none',
               flexShrink: 0,
@@ -673,8 +683,8 @@ export default function HomeScreen({ onStart, onPerushim }) {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="28"
-              height="28"
+              width={isMobile ? 22 : 28}
+              height={isMobile ? 22 : 28}
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -714,7 +724,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
                 onBlur={() => setTimeout(() => setSearchFocused(false), 180)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                 placeholder=""
-                className="w-full px-6 py-4 bg-transparent text-white/90 text-xl outline-none text-center"
+                className={`w-full bg-transparent text-white/90 outline-none text-center ${isMobile ? 'px-3 py-2.5 text-base' : 'px-6 py-4 text-xl'}`}
                 style={{
                   fontFamily: 'var(--font-title)',
                   caretColor: '#d4a843',
@@ -725,7 +735,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
               {!searchQuery && (
                 <div
                   key={cycleTick}
-                  className="absolute inset-0 flex items-center justify-center pointer-events-none fade-in text-xl"
+                  className={`absolute inset-0 flex items-center justify-center pointer-events-none fade-in ${isMobile ? 'text-base' : 'text-xl'}`}
                   style={{
                     fontFamily: 'var(--font-title)',
                     color: 'rgba(255,255,255,0.35)',
@@ -761,8 +771,8 @@ export default function HomeScreen({ onStart, onPerushim }) {
             aria-label="חפש"
             className="flex items-center justify-center text-gold cursor-pointer"
             style={{
-              width: '44px',
-              height: '44px',
+              width: isMobile ? '34px' : '44px',
+              height: isMobile ? '34px' : '44px',
               background: 'transparent',
               border: 'none',
               flexShrink: 0,
@@ -775,8 +785,8 @@ export default function HomeScreen({ onStart, onPerushim }) {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="28"
-              height="28"
+              width={isMobile ? 22 : 28}
+              height={isMobile ? 22 : 28}
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
