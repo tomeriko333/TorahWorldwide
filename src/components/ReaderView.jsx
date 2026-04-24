@@ -67,6 +67,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
   const [searchQuery, setSearchQuery] = useState('');
   const [searchError, setSearchError] = useState('');
   const [searchFocused, setSearchFocused] = useState(false);
+  const [searchOverlayOpen, setSearchOverlayOpen] = useState(false);
 
   const handleBottomSearch = () => {
     const result = parseSearchRef(searchQuery, torahStructure.books);
@@ -1392,7 +1393,9 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
             )
           )}
 
-          {/* Search bar — physical right side of Row 2, inline with buttons */}
+          {/* Search bar — physical right side of Row 2, inline with buttons.
+              Desktop only; mobile uses the compass button below that opens a full-screen overlay. */}
+          {!isMobile && (
           <div
             className="absolute right-4 top-1/2"
             style={{ width: '220px', transform: 'translateY(calc(-50% + 3px))' }}
@@ -1451,6 +1454,27 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
               </p>
             )}
           </div>
+          )}
+
+          {/* Mobile search trigger — compass icon in the bottom-right of Row 2.
+              Opens a full-screen overlay so it doesn't fight other buttons for space. */}
+          {isMobile && (
+            <button
+              onClick={() => { setSearchError(''); setSearchOverlayOpen(true); }}
+              aria-label="חיפוש / קפיצה לפרק"
+              title="חיפוש / קפיצה לפרק"
+              className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center justify-center
+                         rounded-full border border-gold/30 text-gold hover:bg-gold/10 cursor-pointer
+                         transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200"
+              style={{ width: '34px', height: '34px' }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+              </svg>
+            </button>
+          )}
         </div>
       ) : (
       /* ======== BOTTOM BAR COLLAPSED — Show button (▲) ======== */
@@ -1462,6 +1486,81 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
         >
           ▲
         </button>
+      )}
+
+      {/* ======== MOBILE SEARCH OVERLAY ======== */}
+      {searchOverlayOpen && (
+        <div
+          className="fixed inset-0 z-[9999] flex items-start justify-center"
+          style={{
+            backgroundColor: 'rgba(5,8,16,0.82)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            paddingTop: '22vh',
+          }}
+          onClick={() => setSearchOverlayOpen(false)}
+        >
+          <div
+            className="w-full max-w-md mx-4"
+            onClick={(e) => e.stopPropagation()}
+            dir="rtl"
+          >
+            {/* Close button */}
+            <div className="flex justify-end mb-3">
+              <button
+                onClick={() => setSearchOverlayOpen(false)}
+                aria-label="סגור"
+                className="rounded-full flex items-center justify-center text-white/50 hover:text-white cursor-pointer transition-all duration-200"
+                style={{ width: '34px', height: '34px', backgroundColor: 'rgba(255,255,255,0.06)' }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 6l12 12" />
+                  <path d="M18 6l-12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Search field */}
+            <div
+              className="relative rounded-2xl overflow-hidden"
+              style={{
+                background: 'linear-gradient(180deg, rgba(30,36,60,0.95) 0%, rgba(18,22,40,0.98) 100%)',
+                border: '1px solid rgba(212,168,67,0.35)',
+                boxShadow: '0 20px 60px rgba(0,0,0,0.55), 0 0 40px rgba(212,168,67,0.12)',
+              }}
+            >
+              <input
+                type="text"
+                dir="rtl"
+                autoFocus
+                value={searchQuery}
+                onChange={(e) => { setSearchQuery(e.target.value); setSearchError(''); }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') { handleBottomSearch(); setSearchOverlayOpen(false); }
+                  if (e.key === 'Escape') setSearchOverlayOpen(false);
+                }}
+                placeholder="קפוץ לפרק  —  לדוגמה: בראשית ג"
+                className="w-full bg-transparent text-white/90 outline-none text-center"
+                style={{
+                  fontFamily: 'var(--font-title)',
+                  caretColor: '#d4a843',
+                  fontSize: '17px',
+                  padding: '18px 20px',
+                }}
+              />
+            </div>
+
+            {/* Error + hint */}
+            {searchError ? (
+              <p className="text-red-400/90 text-xs font-ui text-center mt-3">{searchError}</p>
+            ) : (
+              <p className="text-white/35 text-[11px] font-ui text-center mt-3">
+                הקלד שם ספר ומספר פרק, ולחץ Enter
+              </p>
+            )}
+          </div>
+        </div>
       )}
 
     </>
