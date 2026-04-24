@@ -10,6 +10,7 @@ import { useAudio } from '../hooks/useAudio';
 import { saveLastPosition, getSettings, saveSettings } from '../utils/storage';
 import { toHebrewNumeral } from '../utils/hebrewNumerals';
 import { parseSearchRef } from '../utils/searchRef';
+import { isAdmin } from '../utils/admin';
 import torahStructure from '../data/torahStructure.json';
 import SpeedControl from './SpeedControl';
 import SettingsPanel from './SettingsPanel';
@@ -322,6 +323,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
   // Translate selected text via Claude API — interlinear (per verse)
   // Save edited translations to file
   const saveTranslationEdits = async () => {
+    if (!isAdmin()) return; // admin-only: prevents visitors from overwriting translations
     if (!savedTranslations) return;
     try {
       const resp = await fetch('/api/save-translation', {
@@ -348,6 +350,8 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
       setShowTranslations(prev => !prev);
       return;
     }
+    // Admin-only: Claude API costs money per call
+    if (!isAdmin()) return;
 
     // Figure out which verses are selected by checking which verse divs contain the selection
     const range = sel.getRangeAt(0);
@@ -478,6 +482,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
 
   // ── Sync Edit: click a word to set its start time to current audio position ──
   const handleSyncEditClick = (verseIndex, wordIndex) => {
+    if (!isAdmin()) return; // admin-only: prevents visitors from mutating sync timings
     if (!syncEditMode || !audio.syncData) return;
     const t = audio.currentTime;
     // Find the sync entry for this word
@@ -507,6 +512,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
   };
 
   const saveSyncEdits = async () => {
+    if (!isAdmin()) return; // admin-only: prevents visitors from overwriting sync files
     if (!audio.syncData) return;
     setSyncSaveStatus('שומר...');
     try {
@@ -1011,9 +1017,9 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
                       padding: editingTranslations ? '8px 40px' : undefined,
                     }}
                     dir="rtl"
-                    contentEditable={editingTranslations}
+                    contentEditable={editingTranslations && isAdmin()}
                     suppressContentEditableWarning
-                    onBlur={editingTranslations ? (e) => updateVerseTranslation(vIndex, e.target.innerText.trim()) : undefined}
+                    onBlur={editingTranslations && isAdmin() ? (e) => updateVerseTranslation(vIndex, e.target.innerText.trim()) : undefined}
                   >
                     {transText}
                   </div>
@@ -1308,7 +1314,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
               </button>
             )}
 
-            {audio.hasAudio && audio.hasSync && !syncEditMode && (
+            {isAdmin() && audio.hasAudio && audio.hasSync && !syncEditMode && (
               <button
                 onClick={() => setSyncEditMode(true)}
                 className="px-2 py-1 rounded-lg border border-white/15 text-white/30 text-[10px] font-ui
@@ -1335,19 +1341,21 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
             )}
           </div>
 
-          {/* Translate button — right side of bottom bar */}
-          <button
-            onClick={handleTranslate}
-            className={`absolute left-4 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg border text-sm font-ui
-                       cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 ${
-                         translating
-                           ? 'border-gold/50 text-gold bg-gold/10'
-                           : 'border-white/15 text-white/40 hover:text-gold hover:border-gold/30'
-                       }`}
-            title="תרגם טקסט מסומן"
-          >
-            {translating ? '...' : 'תרגום'}
-          </button>
+          {/* Translate button — right side of bottom bar. Admin-only (Claude API costs money). */}
+          {isAdmin() && (
+            <button
+              onClick={handleTranslate}
+              className={`absolute left-4 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg border text-sm font-ui
+                         cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 ${
+                           translating
+                             ? 'border-gold/50 text-gold bg-gold/10'
+                             : 'border-white/15 text-white/40 hover:text-gold hover:border-gold/30'
+                         }`}
+              title="תרגם טקסט מסומן"
+            >
+              {translating ? '...' : 'תרגום'}
+            </button>
+          )}
 
           {/* Show saved translations button */}
           {savedTranslations && (
@@ -1365,8 +1373,8 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
             </button>
           )}
 
-          {/* Edit translations button — only when translations are visible */}
-          {showSavedTranslations && savedTranslations && (
+          {/* Edit translations button — admin-only, only when translations are visible */}
+          {isAdmin() && showSavedTranslations && savedTranslations && (
             editingTranslations ? (
               <button
                 onClick={saveTranslationEdits}
