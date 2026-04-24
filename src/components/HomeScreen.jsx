@@ -129,7 +129,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
     const base = Math.round(desiredBookRowWidth * 0.85);
     if (chapterCount <= 20) return Math.min(base, 560);
     if (chapterCount <= 60) return Math.min(base, 900);
-    return Math.min(base, 1200);
+    return Math.min(base, 1240);
   })();
   const chapterGridMaxWidth = `min(${chapterGridMaxPx}px, 85vw)`;
   // More columns on longer books keeps the grid from becoming too tall.
@@ -685,7 +685,7 @@ export default function HomeScreen({ onStart, onPerushim }) {
             <div
               ref={chapterScrollRef}
               dir="rtl"
-              className="max-h-[260px] overflow-y-auto overflow-x-hidden hide-scrollbar py-5 px-6"
+              className="max-h-[260px] overflow-y-auto hide-scrollbar py-5 px-8"
             >
               <div
                 className="grid gap-2 justify-items-center"
@@ -724,17 +724,20 @@ export default function HomeScreen({ onStart, onPerushim }) {
               </div>
             </div>
 
-            {/* Scroll arrows — only rendered when the grid actually overflows. */}
+            {/* Scroll arrows — only rendered when the grid actually overflows.
+                Positioned OUTSIDE the grid to the physical left so they don't overlap tiles. */}
             {(canScrollUp || canScrollDown) && (
               <>
                 <button
                   onClick={() => scrollChapters(-1)}
                   disabled={!canScrollUp}
                   aria-label="גלול למעלה"
-                  className="absolute left-0 top-2 flex items-center justify-center rounded-full border transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 cursor-pointer hover:bg-gold/15"
+                  className="absolute flex items-center justify-center rounded-full border transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 cursor-pointer hover:bg-gold/15"
                   style={{
                     width: '28px',
                     height: '28px',
+                    left: '-40px',
+                    top: '8px',
                     color: '#f4d78a',
                     background: 'linear-gradient(180deg, rgba(20,28,50,0.82), rgba(10,14,26,0.9))',
                     borderColor: 'rgba(244,215,138,0.4)',
@@ -752,10 +755,12 @@ export default function HomeScreen({ onStart, onPerushim }) {
                   onClick={() => scrollChapters(1)}
                   disabled={!canScrollDown}
                   aria-label="גלול למטה"
-                  className="absolute left-0 bottom-2 flex items-center justify-center rounded-full border transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 cursor-pointer hover:bg-gold/15"
+                  className="absolute flex items-center justify-center rounded-full border transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 cursor-pointer hover:bg-gold/15"
                   style={{
                     width: '28px',
                     height: '28px',
+                    left: '-40px',
+                    bottom: '8px',
                     color: '#f4d78a',
                     background: 'linear-gradient(180deg, rgba(20,28,50,0.82), rgba(10,14,26,0.9))',
                     borderColor: 'rgba(244,215,138,0.4)',
