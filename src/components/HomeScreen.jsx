@@ -196,14 +196,15 @@ export default function HomeScreen({ onStart, onPerushim }) {
       )}
 
       {/* Wallpaper arrows + eye toggle.
-          Desktop: bottom-right. Mobile: just above the search bar, right-anchored, so they
-          don't collide with the title Aleph up top or with content. */}
+          Desktop: bottom-right. Mobile: directly under the subtitle, centered horizontally. */}
       <div
         className="fixed z-50 flex items-center gap-1.5"
         style={{
-          top: 'auto',
-          bottom: isMobile ? '62px' : '24px',
-          right: isMobile ? '12px' : '24px',
+          top: isMobile ? '92px' : 'auto',
+          bottom: isMobile ? 'auto' : '24px',
+          left: isMobile ? '50%' : 'auto',
+          right: isMobile ? 'auto' : '24px',
+          transform: isMobile ? 'translateX(-50%)' : 'none',
         }}
       >
         {!uiHidden && (
